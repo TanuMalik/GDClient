@@ -54,9 +54,9 @@ def run_command(args, processing_function=cmd_print_output):
 
     return output
 
-def get_cfg_field(field):
+def get_cfg_field(field, namespace='Default'):
     try:
-        return str(config.get('Default', field))
+        return str(config.get(namespace, field))
     except:
         print "%s is not defined"% field
         return "None"
@@ -76,13 +76,13 @@ def gd_init(config_file_name):
 
     b_will_exit = False
     if  get_cfg_field('uname') == "None":
-        value = raw_input("Please provide user name > ")
+        uname = raw_input("Please provide user name > ")
 
     if get_cfg_field('goauth-token') == "None":
         b_will_exit = True
         try:
-            result = get_access_token(username=config['Default']['uname'])
-            config['Default']['uname']=value
+            result = get_access_token(username=uname)
+            config['Default']['uname']=uname
             config['Default']['goauth-token']= result.token
 	    b_will_exit = False
         except Exception as e:
@@ -90,11 +90,27 @@ def gd_init(config_file_name):
             sys.stderr.write(str(e) + "\n")
 
     if b_will_exit:
-        with open(config_file_name, 'w') as configfile:
-            config.write(configfile)
-        #print "Thank you for setup. Please run client again"
-        #exit(1)
+
+        print "Thank you for setup. Please run client again"
+        exit(1)
+
+    with open(config_file_name, 'w') as configfile:
+        config.write(configfile)
     return config
+
+def gd_init_catalog():
+    global datasetClient
+    mycatalog = get_cfg_field('catalog',namespace='GeoDataspace')
+    if  mycatalog == "None":
+        r, data = datasetClient.get_catalogs()
+        print data
+        nr_tries = 0
+        while (nr_tries<3 and mycatalog == "None"):
+            catalog_name = raw_input("Please provide catalog name > ")
+            # Show the data to user and get catalog_name from user
+            mycatalog = str(datasetClient.get_catalog_by_name(catalog_name))
+            nr_tries += 1
+
 
 if __name__ == '__main__':
    
@@ -104,10 +120,13 @@ if __name__ == '__main__':
     
     ## Init a datasetclient
     datasetClient = DatasetClient(config['Default']['URL'], config['Default']['goauth-token'])
-    ## If datasetclient is not None then connection between client and server established. 
+    ## If datasetclient is not None then connection between client and server established.
     if datasetClient is None:
         print "cannot obtain a valid dataset client"
         exit(1)
+
+    mycatalog = gd_init_catalog()
+    print "mycatalog=",mycatalog
 
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
     ## LevelDB local database
