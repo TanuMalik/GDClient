@@ -13,7 +13,6 @@ import requests
 import atexit
 
 import configparser
-config = configparser.ConfigParser()
 
 from leveldb import LevelDB, LevelDBError
 from globusonline.catalog.client.dataset_client import DatasetClient
@@ -100,6 +99,7 @@ def gd_init(config_file_name):
 if __name__ == '__main__':
    
     config_file_name = ".gdclient/config.ini"
+    config = configparser.ConfigParser()
     config = gd_init(config_file_name)
     
     ## Init a datasetclient
