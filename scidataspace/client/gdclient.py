@@ -4,7 +4,7 @@ import os, sys, subprocess
 import datetime,json, re
 from pprint import pprint
 
-from globusonline.catalog.client.goauth import get_access_token, process_args
+from globusonline.catalog.client.goauth import get_access_token
 
 import code
 import logging
