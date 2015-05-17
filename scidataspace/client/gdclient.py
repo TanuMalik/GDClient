@@ -10,6 +10,9 @@ import readline
 import requests
 import atexit
 
+import configparser
+config = configparser.ConfigParser()
+
 from leveldb import LevelDB, LevelDBError
 from globusonline.catalog.client.dataset_client import DatasetClient
 from scidataspace.client.completer import BufferAwareCompleter
@@ -50,9 +53,37 @@ def run_command(args, processing_function=cmd_print_output):
 
     return output
 
+def get_cfg_field(field):
+    try:
+        return config.get('Default', field)
+    except:
+        print "%s is not defined"% field
+
+def gd_init():
+    config_file_name = ".gdclient/config.ini"
+    config.read_file(open(config_file_name))
+    b_will_exit = False
+    for key in ["URL", "uname", "goauth-token"]:
+        value = get_cfg_field(key)
+        print key,"  ", value
+        if str(value) == str(None):
+            value = raw_input("Please provide value for %s > "%key)
+            config['Default'][key]=value
+            b_will_exit = True
+    with open(config_file_name, 'w') as configfile:
+        config.write(configfile)
+    if b_will_exit:
+        print "Thank you for setup. Please run client again"
+        exit(1)
+
+    datasetClient = DatasetClient(config['Default']['URL'], config['Default']['goauth-token'])
+    if datasetClient is None:
+        print "cannot obtain a valid dataset client"
+        exit(1)
+
 if __name__ == '__main__':
 
-
+    gd_init()
     ## Read the config.ini file and check if URL is set
 
     ## if not ask to set it and exit
@@ -96,6 +127,7 @@ if __name__ == '__main__':
     # Use the tab key for completion
     readline.parse_and_bind('tab: complete')
 
+    '''
     geounit_name = UNDEFINED
     geounit_id = "0"
     while True :
@@ -120,5 +152,6 @@ if __name__ == '__main__':
             #print "any cmd"
             run_command(cmd_to_run)
     print "done"
+    '''
 
 
