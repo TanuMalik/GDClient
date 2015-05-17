@@ -15,6 +15,12 @@ from globusonline.catalog.client.dataset_client import DatasetClient
 from scidataspace.client.completer import BufferAwareCompleter
 
 
+def cmd_print_output(process):
+    for line in iter(process.stdout.readline, ''):
+        line = line.strip()
+        print "   > ", line
+    return 1
+
 
 def run_command(args, processing_function=cmd_print_output):
     #print ("running:",args)
