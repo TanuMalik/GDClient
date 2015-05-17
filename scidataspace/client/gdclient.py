@@ -4,6 +4,8 @@ import os, sys, subprocess
 import datetime,json, re
 from pprint import pprint
 
+from globusonline.catalog.client.goauth import get_access_token, process_args
+
 import code
 import logging
 import readline
@@ -55,24 +57,35 @@ def run_command(args, processing_function=cmd_print_output):
 
 def get_cfg_field(field):
     try:
-        return config.get('Default', field)
+        return str(config.get('Default', field))
     except:
         print "%s is not defined"% field
+        return "None"
 
 def gd_init():
     config_file_name = ".gdclient/config.ini"
     config.read_file(open(config_file_name))
+    if get_cfg_field('URL') == "None":
+        print "GeoDataspace URL is not set"
+        exit(1)
+
     b_will_exit = False
-    for key in ["URL", "uname", "goauth-token"]:
-        value = get_cfg_field(key)
-        print key,"  ", value
-        if str(value) == str(None):
-            value = raw_input("Please provide value for %s > "%key)
-            config['Default'][key]=value
-            b_will_exit = True
-    with open(config_file_name, 'w') as configfile:
-        config.write(configfile)
+    if  get_cfg_field('uname') == "None":
+        value = raw_input("Please provide user name > ")
+        config['Default']['uname']=value
+        b_will_exit = True
+
+    if get_cfg_field('goauth-token') == "None":
+        b_will_exit = True
+        try:
+            result = get_access_token(username=config['Default']['uname'])
+            config['Default']['goauth-token']= result.token
+        except Exception as e:
+            sys.stderr.write(str(e) + "\n")
+
     if b_will_exit:
+        with open(config_file_name, 'w') as configfile:
+            config.write(configfile)
         print "Thank you for setup. Please run client again"
         exit(1)
 
