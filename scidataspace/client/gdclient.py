@@ -15,6 +15,15 @@ from globusonline.catalog.client.dataset_client import DatasetClient
 from scidataspace.client.completer import BufferAwareCompleter
 
 
+global datasetClient
+
+def init_DatasetClient(goauth_token,BASE_URL):
+    datasetClient = DatasetClient(goauth_token, BASE_URL)
+    if datasetClient is None:
+        print "cannot obtain a valid dataset client"
+        exit(1)
+
+
 def cmd_print_output(process):
     for line in iter(process.stdout.readline, ''):
         line = line.strip()
@@ -43,10 +52,25 @@ def run_command(args, processing_function=cmd_print_output):
 
 if __name__ == '__main__':
 
-    # check if the LevelDB local database and histfile exists; if not create; if yes re-use	
-    ### LevelDB local database
+
+    ## Read the config.ini file and check if URL is set
+
+    ## if not ask to set it and exit
+
+    ## if username is none ask for username and store it config.ini. 
+    ## Next time the client is run, read username from config.ini
+
+    ## If Globus token is none, Obtain Globus token and store it, else proceed 
+
+    ## Init a datasetclient
+
+    ## If datasetclient is not None then connection between client and server established. 
+
+    ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
+
+    ## LevelDB local database
     levelDB_local_database = ".gdclient/.gdclient_levelDB"
-    ### Add history
+    ## Add history
     histfile = ".gdclient/.gd_history"
     try:
         readline.read_history_file(histfile)
@@ -72,7 +96,8 @@ if __name__ == '__main__':
     # Use the tab key for completion
     readline.parse_and_bind('tab: complete')
 
-
+    geounit_name = UNDEFINED
+    geounit_id = "0"
     while True :
         raw_cmd = raw_input(geounit_name+" > ")
         cmd_to_run = raw_cmd
