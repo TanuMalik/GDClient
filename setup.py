@@ -15,7 +15,7 @@ setup(name="scidataspace-sciunit-client",
                 "scidataspace.client.globusonline.catalog.client",
                 "scidataspace.client.globusonline.catalog.client.ca",
                 "scidataspace.client.globusonline.catalog.client.examples"],
-      include_package_data={
+      package_data={
       		"scidataspace.client":[".gdclient/*"],
       		"scidataspace.client.globusonline.catalog.client": ["ca/*.pem"] },
       scripts=["scidataspace/client/gdclient.py"], #globusonline/catalog/client/cli/catalog.py"],
