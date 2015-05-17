@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(name="scidataspace-sciunit-client",
       version="0.1a1",
@@ -7,7 +7,7 @@ setup(name="scidataspace-sciunit-client",
       author="Cristian Vlaescu, Tanu Malik",
       author_email="tanum@ci.uchicago.edu",
       url="https://github.com/globusonline/catalog-client",
-      install_requires = ['leveldb>=0.193'],
+      install_requires=['leveldb>=0.193'],
       packages=["scidataspace",
 		"scidataspace.client",
 		"scidataspace.client.globusonline",
@@ -16,13 +16,13 @@ setup(name="scidataspace-sciunit-client",
                 "scidataspace.client.globusonline.catalog.client.ca",
                 "scidataspace.client.globusonline.catalog.client.examples"],
       include_package_data={
-      "scidataspace.client":[".gdclient/*"],
-      "scidataspace.client.globusonline.catalog.client": ["ca/*.pem"] },
-      scripts = ["scidataspace/client/gdclient.py"], #globusonline/catalog/client/cli/catalog.py"],
-      keywords = ["scidataspace,globusonline"],
+      		"scidataspace.client":[".gdclient/*"],
+      		"scidataspace.client.globusonline.catalog.client": ["ca/*.pem"] },
+      scripts=["scidataspace/client/gdclient.py"], #globusonline/catalog/client/cli/catalog.py"],
+      keywords=["scidataspace","globusonline"],
       classifiers=[
           "Development Status :: 3 - Alpha",
-          "Intended Audience :: Developers",
+          "Intended Audience :: Users",
           "License :: OSI Approved :: Apache Software License",
           "Operating System :: MacOS :: MacOS X",
           "Operating System :: Microsoft :: Windows",
