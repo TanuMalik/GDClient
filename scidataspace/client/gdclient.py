@@ -62,8 +62,14 @@ def get_cfg_field(field):
         print "%s is not defined"% field
         return "None"
 
-def gd_init():
-    config_file_name = ".gdclient/config.ini"
+## Read the config.ini file and check if URL is set
+## if not ask to set it and exit
+## if username is none ask for username and store it config.ini. 
+## Next time the client is run, read username from config.ini
+## If Globus token is none, Obtain Globus token and store it, else proceed 
+## Return config
+def gd_init(config_file_name):
+
     config.read_file(open(config_file_name))
     if get_cfg_field('URL') == "None":
         print "GeoDataspace URL is not set"
@@ -72,46 +78,38 @@ def gd_init():
     b_will_exit = False
     if  get_cfg_field('uname') == "None":
         value = raw_input("Please provide user name > ")
-        config['Default']['uname']=value
-        b_will_exit = True
 
     if get_cfg_field('goauth-token') == "None":
         b_will_exit = True
         try:
             result = get_access_token(username=config['Default']['uname'])
+            config['Default']['uname']=value
             config['Default']['goauth-token']= result.token
+	    b_will_exit = False
         except Exception as e:
+	    print "There was an error in obtaining Globus token. Please check username or your password"
             sys.stderr.write(str(e) + "\n")
 
     if b_will_exit:
         with open(config_file_name, 'w') as configfile:
             config.write(configfile)
-        print "Thank you for setup. Please run client again"
-        exit(1)
+        #print "Thank you for setup. Please run client again"
+        #exit(1)
+    return config
 
+if __name__ == '__main__':
+   
+    config_file_name = ".gdclient/config.ini"
+    config = gd_init(config_file_name)
+    
+    ## Init a datasetclient
     datasetClient = DatasetClient(config['Default']['URL'], config['Default']['goauth-token'])
+    ## If datasetclient is not None then connection between client and server established. 
     if datasetClient is None:
         print "cannot obtain a valid dataset client"
         exit(1)
 
-if __name__ == '__main__':
-
-    gd_init()
-    ## Read the config.ini file and check if URL is set
-
-    ## if not ask to set it and exit
-
-    ## if username is none ask for username and store it config.ini. 
-    ## Next time the client is run, read username from config.ini
-
-    ## If Globus token is none, Obtain Globus token and store it, else proceed 
-
-    ## Init a datasetclient
-
-    ## If datasetclient is not None then connection between client and server established. 
-
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
-
     ## LevelDB local database
     levelDB_local_database = ".gdclient/.gdclient_levelDB"
     ## Add history
