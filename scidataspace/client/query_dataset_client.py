@@ -81,7 +81,7 @@ def get_last_datasets(client, catalog_id, how_many=5):
     last_dataset = {'name':'some_strange_string'}
     for i in newlist:
         if last_dataset['name'] != i['name']:
-            result.append(i)
+            result.append(i['name'])
             last_dataset = i
             count +=1
         if count>how_many-1:
