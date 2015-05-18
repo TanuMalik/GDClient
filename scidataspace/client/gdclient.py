@@ -16,8 +16,8 @@ import configparser
 from leveldb import LevelDB, LevelDBError
 from globusonline.catalog.client.dataset_client import DatasetClient
 from globusonline.catalog.client.goauth import get_access_token
-from scidataspace.client.completer import BufferAwareCompleter
-from scidataspace.client.query_dataset_client import get_catalogs, get_catalog_by_name
+from completer import BufferAwareCompleter
+from query_dataset_client import get_catalogs, get_catalog_by_name
 
 
 global datasetClient
@@ -102,15 +102,17 @@ def gd_init(config_file_name):
 def gd_init_catalog():
     mycatalog = get_cfg_field('catalog',namespace='GeoDataspace')
     if  mycatalog == "None":
-        get_catalogs(datasetClient)
         nr_tries = 0
         while (nr_tries<3 and mycatalog == "None"):
             catalog_name = raw_input("Please provide catalog name > ")
             # Show the data to user and get catalog_name from user
-            mycatalog = str(get_catalog_by_name(datasetClient,catalog_name))
- 	    print mycatalog
+            catalog_json = get_catalog_by_name(datasetClient,catalog_name)
+            if catalog_json is not None:
+                mycatalog = str(catalog_json.get('id',None))
+            else:
+                print "Could not find catalog with name %s"%catalog_name
             nr_tries += 1
-
+    return mycatalog
 
 if __name__ == '__main__':
    
@@ -148,10 +150,15 @@ if __name__ == '__main__':
 
     print ('enter "stop" to end session')
     completer_suggestions = {
-         'geounit':['start', 'delete'],
-         'add_member':[],
-         'annotate':['geounit', 'member'],
-         'stop':[]
+        {'geounit':{'start':{}, 'delete':{}}},
+        {'add_member':{}},
+        {'annotate':{'geounit':
+                         {'geoprop1':{}, 'prop2':{}, 'fluid':{}
+                          },
+                     'member':{}
+                     }
+         },
+        {'stop':{}}
     }
     readline.set_completer(BufferAwareCompleter(completer_suggestions).complete)
 

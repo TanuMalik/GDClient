@@ -21,7 +21,7 @@ class BufferAwareCompleter(object):
         response = None
         if state == 0:
             # This is the first time for this text, so build a match list.
-            
+
             origline = readline.get_line_buffer()
             begin = readline.get_begidx()
             end = readline.get_endidx()
@@ -33,19 +33,23 @@ class BufferAwareCompleter(object):
             logging.debug('end=%s', end)
             logging.debug('being_completed=%s', being_completed)
             logging.debug('words=%s', words)
-            
+
             if not words:
                 self.current_candidates = sorted(self.options.keys())
             else:
                 try:
-                    if begin == 0:
-                        # first word
-                        candidates = self.options.keys()
-                    else:
-                        # later word
-                        first = words[0]
-                        candidates = self.options[first]
-                    
+                    cnt=0
+                    base_candidates = self.options
+                    max_cnt = len(words)
+                    if being_completed: max_cnt-=1
+
+                    while cnt<max_cnt:
+                        first = words[cnt]
+                        cnt +=1
+                        base_candidates = base_candidates[first]
+
+                    candidates = base_candidates.keys()
+
                     if being_completed:
                         # match options with portion of input
                         # being completed
@@ -56,7 +60,7 @@ class BufferAwareCompleter(object):
                         self.current_candidates = candidates
 
                     logging.debug('candidates=%s', self.current_candidates)
-                    
+
                 except (KeyError, IndexError), err:
                     logging.error('completion error: %s', err)
                     self.current_candidates = []
@@ -78,9 +82,12 @@ def input_loop():
 
 if __name__ == "__main__":
     #just for testing
-    readline.set_completer(BufferAwareCompleter(
-        {'geounit':['start', 'delete'],
-         'stop':[],}).complete)
+    ccdict = {'geounit':
+                {'start':{'one':{}, 'two':{}, 'three':{}}, 'delete':{}},
+              'stop':{}
+              }
+
+    readline.set_completer(BufferAwareCompleter(ccdict).complete)
 
     # Use the tab key for completion
     readline.parse_and_bind('tab: complete')
