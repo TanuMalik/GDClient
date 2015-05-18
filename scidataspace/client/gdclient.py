@@ -17,7 +17,7 @@ from leveldb import LevelDB, LevelDBError
 from globusonline.catalog.client.dataset_client import DatasetClient
 from globusonline.catalog.client.goauth import get_access_token
 from scidataspace.client.completer import BufferAwareCompleter
-import scidataspace.client.dataset_clientview
+from scidataspace.client.query_dataset_client import get_catalogs, get_catalog_by_name
 
 
 global datasetClient
@@ -102,13 +102,13 @@ def gd_init(config_file_name):
 def gd_init_catalog():
     mycatalog = get_cfg_field('catalog',namespace='GeoDataspace')
     if  mycatalog == "None":
-        r, data = get_catalogs(datasetClient)
-        print data
+        get_catalogs(datasetClient)
         nr_tries = 0
         while (nr_tries<3 and mycatalog == "None"):
             catalog_name = raw_input("Please provide catalog name > ")
             # Show the data to user and get catalog_name from user
             mycatalog = str(get_catalog_by_name(datasetClient,catalog_name))
+ 	    print mycatalog
             nr_tries += 1
 
 

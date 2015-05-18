@@ -1,11 +1,31 @@
 import sys
 import json
 import traceback
+import re
 from optparse import OptionParser
 
 from globusonline.catalog.client.operators import Op
 from globusonline.catalog.client.rest_client import RestClientError
 from globusonline.catalog.client.dataset_client import DatasetClient
+
+
+show_output = True
+print_text = True #Variable used to decide whether output should be in JSON (False) or limited plain text (True)
+
+def format_catalog_text(the_catalog):
+    catalog_description = ''
+    catalog_name = ''
+    try:
+        catalog_description = the_catalog['config']['description']
+    except KeyError:
+        catalog_description = ''
+    try:
+        catalog_name = the_catalog['config']['name']
+    except KeyError:
+        catalog_name = 'no catalog name'
+    return "%s)\t%s - [%s] - %s"%(the_catalog['id'], catalog_name, the_catalog['config']['owner'], catalog_description)
+
+
 
 def get_catalogs(client):
     try:
