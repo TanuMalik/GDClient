@@ -30,6 +30,7 @@ def format_catalog_text(the_catalog):
 def get_catalogs(client):
     try:
         _, catalog_list = client.get_catalogs()
+
         if not show_output:
             return True
         if print_text:
@@ -67,4 +68,24 @@ def get_catalog_by_name(client, name=".*"):
          selected_catalog = None
 
      return selected_catalog
+
+###
+#   Returns a list with last 5 datasets, having different names
+##
+def get_last_datasets(client, catalog_id, how_many=5):
+    _, dataset = client.get_datasets(catalog_id)
+    newlist = sorted(dataset, key=lambda k: k['name'])
+
+    count = 0
+    result = []
+    last_dataset = {'name':'some_strange_string'}
+    for i in newlist:
+        if last_dataset['name'] != i['name']:
+            result.append(i)
+            last_dataset = i
+            count +=1
+        if count>how_many-1:
+            break
+
+    return result
 
