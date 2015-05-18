@@ -109,9 +109,11 @@ def gd_init_catalog():
             catalog_json = get_catalog_by_name(datasetClient,catalog_name)
             if catalog_json is not None:
                 mycatalog = str(catalog_json.get('id',None))
+		#set_cfg_field('catalog',namespace='GeoDataspace')
             else:
                 print "Could not find catalog with name %s"%catalog_name
             nr_tries += 1
+            
     return mycatalog
 
 if __name__ == '__main__':
@@ -122,14 +124,15 @@ if __name__ == '__main__':
     
     ## Init a datasetclient
     datasetClient = DatasetClient(config['Default']['goauth-token'],config['Default']['URL'])
-    print datasetClient 
+    
     ## If datasetclient is not None then connection between client and server established.
     if datasetClient is None:
         print "cannot obtain a valid dataset client"
         exit(1)
 
+   
     mycatalog = gd_init_catalog()
-    print "mycatalog=",mycatalog
+    #print "mycatalog=",mycatalog
 
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
     ## LevelDB local database
