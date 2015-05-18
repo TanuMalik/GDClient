@@ -4,7 +4,6 @@ import os, sys, subprocess
 import datetime,json, re
 from pprint import pprint
 
-from globusonline.catalog.client.goauth import get_access_token
 
 import code
 import logging
@@ -16,7 +15,9 @@ import configparser
 
 from leveldb import LevelDB, LevelDBError
 from globusonline.catalog.client.dataset_client import DatasetClient
+from globusonline.catalog.client.goauth import get_access_token
 from scidataspace.client.completer import BufferAwareCompleter
+import scidataspace.client.dataset_clientview
 
 
 global datasetClient
@@ -99,16 +100,15 @@ def gd_init(config_file_name):
     return config
 
 def gd_init_catalog():
-    global datasetClient
     mycatalog = get_cfg_field('catalog',namespace='GeoDataspace')
     if  mycatalog == "None":
-        r, data = datasetClient.get_catalogs()
+        r, data = get_catalogs(datasetClient)
         print data
         nr_tries = 0
         while (nr_tries<3 and mycatalog == "None"):
             catalog_name = raw_input("Please provide catalog name > ")
             # Show the data to user and get catalog_name from user
-            mycatalog = str(datasetClient.get_catalog_by_name(catalog_name))
+            mycatalog = str(get_catalog_by_name(datasetClient,catalog_name))
             nr_tries += 1
 
 
@@ -119,7 +119,8 @@ if __name__ == '__main__':
     config = gd_init(config_file_name)
     
     ## Init a datasetclient
-    datasetClient = DatasetClient(config['Default']['URL'], config['Default']['goauth-token'])
+    datasetClient = DatasetClient(config['Default']['goauth-token'],config['Default']['URL'])
+    print datasetClient 
     ## If datasetclient is not None then connection between client and server established.
     if datasetClient is None:
         print "cannot obtain a valid dataset client"
