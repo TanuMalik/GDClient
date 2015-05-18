@@ -19,6 +19,9 @@ from globusonline.catalog.client.goauth import get_access_token
 from completer import BufferAwareCompleter
 from query_dataset_client import get_catalogs, get_catalog_by_name
 
+from commands.annotate import parse_cmd_annotate
+from commands.geounit import parse_cmd_geounit
+from commands.util import UNDEFINED, SafeList
 
 global datasetClient
 
@@ -137,8 +140,8 @@ if __name__ == '__main__':
         exit(1)
 
    
-    mycatalog = cfg.gd_init_catalog(datasetClient)
-    #print "mycatalog=",mycatalog
+    mycatalog_id = cfg.gd_init_catalog(datasetClient)
+    #print "mycatalog_id=",mycatalog_id
 
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
     ## LevelDB local database
@@ -173,7 +176,7 @@ if __name__ == '__main__':
     # Use the tab key for completion
     readline.parse_and_bind('tab: complete')
 
-    '''
+
     geounit_name = UNDEFINED
     geounit_id = "0"
     while True :
@@ -184,13 +187,16 @@ if __name__ == '__main__':
         if cmd_splitted.get(0) == "stop":
             break
         elif cmd_splitted.get(0)=="geounit":
-            parse_cmd_geounit(cmd_splitted)
+            geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted,mycatalog_id, datasetClient)
+            if err_message != "":
+                print err_message
 
         elif cmd_splitted.get(0)=="annotate":
-            parse_cmd_annotate(cmd_splitted)
+            parse_cmd_annotate(cmd_splitted,geounit_name, geounit_id, mycatalog_id, datasetClient)
 
         elif cmd_splitted.get(0)=="add_member":
-            parse_cmd_add_member(cmd_splitted)
+            pass
+            #parse_cmd_add_member(cmd_splitted)
 
         else:
 
@@ -198,6 +204,6 @@ if __name__ == '__main__':
             #print "any cmd"
             run_command(cmd_to_run)
     print "done"
-    '''
+
 
 
