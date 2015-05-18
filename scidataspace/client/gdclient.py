@@ -55,75 +55,81 @@ def run_command(args, processing_function=cmd_print_output):
 
     return output
 
-def get_cfg_field(field, namespace='Default'):
-    try:
-        return str(config.get(namespace, field))
-    except:
-        print "%s is not defined"% field
-        return "None"
+class GDConfig:
+    config_file_name = ".gdclient/config.ini"
+    config = None
 
-## Read the config.ini file and check if URL is set
-## if not ask to set it and exit
-## if username is none ask for username and store it config.ini. 
-## Next time the client is run, read username from config.ini
-## If Globus token is none, Obtain Globus token and store it, else proceed 
-## Return config
-def gd_init(config_file_name):
+    ## Read the config.ini file and check if URL is set
+    ## if not ask to set it and exit
+    ## if username is none ask for username and store it config.ini.
+    ## Next time the client is run, read username from config.ini
+    ## If Globus token is none, Obtain Globus token and store it, else proceed
+    ## Return config
+    def __init__(self):
+        self.config = configparser.ConfigParser()
+        self.config.read_file(open(self.config_file_name))
+        if self.get_cfg_field('URL') == "None":
+            print "GeoDataspace URL is not set"
+            exit(1)
 
-    config.read_file(open(config_file_name))
-    if get_cfg_field('URL') == "None":
-        print "GeoDataspace URL is not set"
-        exit(1)
+        b_will_exit = False
+        if  self.get_cfg_field('uname') == "None":
+            uname = raw_input("Please provide user name > ")
 
-    b_will_exit = False
-    if  get_cfg_field('uname') == "None":
-        uname = raw_input("Please provide user name > ")
+        if self.get_cfg_field('goauth-token') == "None":
+            b_will_exit = True
+            try:
+                result = get_access_token(username=uname)
+                self.config['Default']['uname']=uname
+                self.config['Default']['goauth-token']= result.token
+                b_will_exit = False
+            except Exception as e:
+                print "There was an error in obtaining Globus token. Please check username or your password"
+                sys.stderr.write(str(e) + "\n")
 
-    if get_cfg_field('goauth-token') == "None":
-        b_will_exit = True
+        if b_will_exit:
+            print "Thank you for setup. Please run client again"
+            exit(1)
+
+        self.write_cfg_file()
+
+
+    def write_cfg_file(self):
+        with open(self.config_file_name, 'w') as configfile:
+            self.config.write(configfile)
+
+    def get_cfg_field(self, field, namespace='Default'):
         try:
-            result = get_access_token(username=uname)
-            config['Default']['uname']=uname
-            config['Default']['goauth-token']= result.token
-	    b_will_exit = False
-        except Exception as e:
-	    print "There was an error in obtaining Globus token. Please check username or your password"
-            sys.stderr.write(str(e) + "\n")
+            return str(self.config.get(namespace, field))
+        except:
+            print "%s is not defined"% field
+            return "None"
 
-    if b_will_exit:
+    def gd_init_catalog(self,datasetClient):
+        mycatalog = self.get_cfg_field('catalog',namespace='GeoDataspace')
+        if  mycatalog == "None":
+            nr_tries = 0
+            while (nr_tries<3 and mycatalog == "None"):
+                catalog_name = raw_input("Please provide catalog name > ")
+                # Show the data to user and get catalog_name from user
+                catalog_json = get_catalog_by_name(datasetClient,catalog_name)
+                if catalog_json is not None:
+                    mycatalog = str(catalog_json.get('id',None))
+                    self.config['GeoDataspace']['catalog'] = mycatalog
+                else:
+                    print "Could not find catalog with name %s"%catalog_name
+                nr_tries += 1
 
-        print "Thank you for setup. Please run client again"
-        exit(1)
+            self.write_cfg_file()
+        return mycatalog
 
-    with open(config_file_name, 'w') as configfile:
-        config.write(configfile)
-    return config
-
-def gd_init_catalog():
-    mycatalog = get_cfg_field('catalog',namespace='GeoDataspace')
-    if  mycatalog == "None":
-        nr_tries = 0
-        while (nr_tries<3 and mycatalog == "None"):
-            catalog_name = raw_input("Please provide catalog name > ")
-            # Show the data to user and get catalog_name from user
-            catalog_json = get_catalog_by_name(datasetClient,catalog_name)
-            if catalog_json is not None:
-                mycatalog = str(catalog_json.get('id',None))
-		#set_cfg_field('catalog',namespace='GeoDataspace')
-            else:
-                print "Could not find catalog with name %s"%catalog_name
-            nr_tries += 1
-            
-    return mycatalog
 
 if __name__ == '__main__':
-   
-    config_file_name = ".gdclient/config.ini"
-    config = configparser.ConfigParser()
-    config = gd_init(config_file_name)
+    # Read configuration file
+    cfg = GDConfig()
     
     ## Init a datasetclient
-    datasetClient = DatasetClient(config['Default']['goauth-token'],config['Default']['URL'])
+    datasetClient = DatasetClient(cfg.config['Default']['goauth-token'],cfg.config['Default']['URL'])
     
     ## If datasetclient is not None then connection between client and server established.
     if datasetClient is None:
@@ -131,7 +137,7 @@ if __name__ == '__main__':
         exit(1)
 
    
-    mycatalog = gd_init_catalog()
+    mycatalog = cfg.gd_init_catalog(datasetClient)
     #print "mycatalog=",mycatalog
 
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
@@ -153,15 +159,14 @@ if __name__ == '__main__':
 
     print ('enter "stop" to end session')
     completer_suggestions = {
-        {'geounit':{'start':{}, 'delete':{}}},
-        {'add_member':{}},
-        {'annotate':{'geounit':
+        'geounit':{'start':{}, 'delete':{}},
+        'add_member':{},
+        'annotate':{'geounit':
                          {'geoprop1':{}, 'prop2':{}, 'fluid':{}
                           },
                      'member':{}
-                     }
-         },
-        {'stop':{}}
+                     },
+        'stop':{}
     }
     readline.set_completer(BufferAwareCompleter(completer_suggestions).complete)
 
