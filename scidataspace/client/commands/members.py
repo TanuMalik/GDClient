@@ -58,11 +58,17 @@ def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient):
         # nr_files = run_command(cmd_to_run,cmd_count_files)
         # print "added ",str(nr_files)," members"
 
-        output = cmd_main(cmd_2,catalog_id, geounit_id, datasetClient)
-        print output
+        members_list = [dict(data_type="directory", data_uri=os.path.join(cmd_2))]
+        for dirname, dirnames, filenames in os.walk(cmd_2):
+            for subdirname in dirnames:
+                members_list.append(dict(data_type="directory", data_uri=os.path.join(dirname, subdirname)))
+            for filename in filenames:
+                members_list.append(dict(data_type="file", data_uri=os.path.join(dirname, filename)))
 
+        # print "adding:",str(members_list)
+        _, members = datasetClient.create_members(catalog_id,geounit_id,members_list)
+        print members.get('code','Error')
 
-
-    # annotate something
+    # add_member something
     else:
         print "cannot find file or folder with name "+cmd_2
