@@ -17,7 +17,7 @@ from leveldb import LevelDB, LevelDBError
 from globusonline.catalog.client.dataset_client import DatasetClient
 from globusonline.catalog.client.goauth import get_access_token
 from completer import BufferAwareCompleter
-from query_dataset_client import get_catalogs, get_catalog_by_name
+from query_dataset_client import get_catalogs, get_catalog_by_name, get_last_datasets
 
 from commands.annotate import parse_cmd_annotate
 from commands.geounit import parse_cmd_geounit
@@ -109,22 +109,22 @@ class GDConfig:
             return "None"
 
     def gd_init_catalog(self,datasetClient):
-        mycatalog = self.get_cfg_field('catalog',namespace='GeoDataspace')
-        if  mycatalog == "None":
+        catalog_id = self.get_cfg_field('catalog',namespace='GeoDataspace')
+        if  catalog_id == "None":
             nr_tries = 0
-            while (nr_tries<3 and mycatalog == "None"):
+            while (nr_tries<3 and catalog_id == "None"):
                 catalog_name = raw_input("Please provide catalog name > ")
                 # Show the data to user and get catalog_name from user
                 catalog_json = get_catalog_by_name(datasetClient,catalog_name)
                 if catalog_json is not None:
-                    mycatalog = str(catalog_json.get('id',None))
-                    self.config['GeoDataspace']['catalog'] = mycatalog
+                    catalog_id = str(catalog_json.get('id',None))
+                    self.config['GeoDataspace']['catalog'] = catalog_id
                 else:
-                    print "Could not find catalog with name %s"%catalog_name
+                    print "Could not find catalog with name containing '%s'"%catalog_name
                 nr_tries += 1
 
             self.write_cfg_file()
-        return mycatalog
+        return catalog_id
 
 
 if __name__ == '__main__':
@@ -142,6 +142,9 @@ if __name__ == '__main__':
    
     mycatalog_id = cfg.gd_init_catalog(datasetClient)
     #print "mycatalog_id=",mycatalog_id
+
+    dataset_list = get_last_datasets(datasetClient,mycatalog_id)
+    dataset_dict = {key:{} for key in dataset_list}
 
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
     ## LevelDB local database
@@ -162,7 +165,7 @@ if __name__ == '__main__':
 
     print ('enter "stop" to end session')
     completer_suggestions = {
-        'geounit':{'start':{}, 'delete':{}},
+        'geounit':{'start':dataset_dict, 'delete':{}},
         'add_member':{},
         'annotate':{'geounit':
                          {'geoprop1':{}, 'prop2':{}, 'fluid':{}

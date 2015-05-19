@@ -74,16 +74,15 @@ def get_catalog_by_name(client, name=".*"):
 ##
 def get_last_datasets(client, catalog_id, how_many=5):
     _, dataset = client.get_datasets(catalog_id)
-    newlist = sorted(dataset, key=lambda k: k['name'])
+    newlist = sorted(dataset, key=lambda k: k['id'], reverse=True)
 
     count = 0
     result = []
-    last_dataset = {'name':'some_strange_string'}
     for i in newlist:
-        if last_dataset['name'] != i['name']:
-            result.append(i['name'])
-            last_dataset = i
-            count +=1
+        if i['name'] in result:
+            continue
+        result.append(i['name'])
+        count +=1
         if count>how_many-1:
             break
 
