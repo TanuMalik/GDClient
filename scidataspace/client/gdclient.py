@@ -19,9 +19,10 @@ from globusonline.catalog.client.goauth import get_access_token
 from completer import BufferAwareCompleter
 from query_dataset_client import get_catalogs, get_catalog_by_name, get_last_datasets
 
+from commands.util import UNDEFINED, SafeList, run_command
 from commands.annotate import parse_cmd_annotate
 from commands.geounit import parse_cmd_geounit
-from commands.util import UNDEFINED, SafeList
+from commands.members import parse_cmd_add_member
 
 global datasetClient
 
@@ -30,33 +31,6 @@ def init_DatasetClient(goauth_token,BASE_URL):
     if datasetClient is None:
         print "cannot obtain a valid dataset client"
         exit(1)
-
-
-def cmd_print_output(process):
-    for line in iter(process.stdout.readline, ''):
-        line = line.strip()
-        print "   > ", line
-    return 1
-
-
-def run_command(args, processing_function=cmd_print_output):
-    #print ("running:",args)
-    try:
-        process = subprocess.Popen(args,
-                                   shell=True,
-                                   bufsize=-1,
-                                   stdout=subprocess.PIPE,
-                                   stderr=None,
-                                   universal_newlines=True)
-
-
-        output = processing_function(process)
-
-        process.communicate()
-    except OSError:
-        print "   > ", sys.exc_info()[1]
-
-    return output
 
 class GDConfig:
     config_file_name = ".gdclient/config.ini"
@@ -181,7 +155,7 @@ if __name__ == '__main__':
 
 
     geounit_name = UNDEFINED
-    geounit_id = "0"
+    geounit_id = None
     while True :
         raw_cmd = raw_input(geounit_name+" > ")
         cmd_to_run = raw_cmd
@@ -190,19 +164,16 @@ if __name__ == '__main__':
         if cmd_splitted.get(0) == "stop":
             break
         elif cmd_splitted.get(0)=="geounit":
-            geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted,mycatalog_id, datasetClient)
+            geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted, mycatalog_id, geounit_id, datasetClient)
             if err_message != "":
                 print err_message
 
         elif cmd_splitted.get(0)=="annotate":
-            parse_cmd_annotate(cmd_splitted,geounit_name, geounit_id, mycatalog_id, datasetClient)
+            parse_cmd_annotate(cmd_splitted, geounit_id, mycatalog_id, datasetClient)
 
         elif cmd_splitted.get(0)=="add_member":
-            pass
-            #parse_cmd_add_member(cmd_splitted)
-
+            parse_cmd_add_member(cmd_splitted,mycatalog_id, geounit_id, datasetClient)
         else:
-
             # any bash command that we want to pass to the system
             #print "any cmd"
             run_command(cmd_to_run)

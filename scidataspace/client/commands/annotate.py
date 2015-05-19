@@ -3,8 +3,8 @@ from util import UNDEFINED
 #######################################
 #   Parse annotation
 #######################################
-def parse_cmd_annotate(cmd_splitted, geounit_name, geounit_id, catalog_id, datasetClient):
-    if geounit_name == UNDEFINED:
+def parse_cmd_annotate(cmd_splitted, geounit_id, catalog_id, datasetClient):
+    if geounit_id is None:
         print "please select geounit"
         return
 
