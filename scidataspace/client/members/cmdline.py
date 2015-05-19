@@ -3,12 +3,16 @@ Command-line interface for the Dataset Client
 """
 import sys
 import argparse
-import dataset_client
+
 import os
 import socket
 import time
 import re
 import json
+
+###  TODO: remove dataset_client.py from this directory
+import dataset_client
+#from scidataspace.client.globusonline.catalog.client.dataset_client import dataset_client
 
 from models import File, Outbox, create_default_name_path_rule
 from dao import OutboxStateDAO

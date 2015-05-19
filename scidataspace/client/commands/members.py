@@ -4,6 +4,7 @@ import re
 
 #CATALOG_UI_PATH = "/home/cristian/git_proj_cv/catalog-ui/src/globusonline/catalog/client"
 from util import run_command
+from scidataspace.client.members.cmdline2 import cmd_main
 
 ###
 ##  this function needs debug
@@ -47,16 +48,19 @@ def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient):
 
     # add members from folder
     elif os.path.isdir(cmd_2):
-        catalog_name = "noname" # dummy value until we change by id
+        # catalog_name = "noname" # dummy value until we change by id
+        #
+        # current_path = os.path.dirname(__file__)
+        # cmd_to_run = "python "+current_path+"/../members/cmdline.py --root  "+cmd_2+ \
+        #              " --dataset_id "+str(geounit_id)+" --catalog_name "+catalog_name+\
+        #              " --catalog_id "+str(catalog_id)+" add_members"
+        # nr_files = "some"
+        # nr_files = run_command(cmd_to_run,cmd_count_files)
+        # print "added ",str(nr_files)," members"
 
-        current_path = os.path.dirname(__file__)
-        cmd_to_run = "python "+current_path+"/../members/cmdline.py --root  "+cmd_2+ \
-                     " --dataset_id "+str(geounit_id)+" --catalog_name "+catalog_name+\
-                     " --catalog_id "+str(catalog_id)+" add_members"
-        nr_files = "some"
-        nr_files = run_command(cmd_to_run,cmd_count_files)
+        output = cmd_main(cmd_2,catalog_id, geounit_id, datasetClient)
+        print output
 
-        print "added ",str(nr_files)," members"
 
 
     # annotate something
