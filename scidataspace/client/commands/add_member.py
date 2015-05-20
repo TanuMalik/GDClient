@@ -1,6 +1,6 @@
 import  os
 import re
-
+from util import is_geounit_selected
 
 #CATALOG_UI_PATH = "/home/cristian/git_proj_cv/catalog-ui/src/globusonline/catalog/client"
 from util import run_command
@@ -27,9 +27,7 @@ def cmd_count_files(process):
 #######################################
 def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient):
     #global db
-    if geounit_id is None:
-        print "please select geounit"
-        return
+    if  not is_geounit_selected(geounit_id): return
 
     cmd_2 = cmd_splitted.get(1,"")
 
@@ -65,9 +63,10 @@ def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient):
             for filename in filenames:
                 members_list.append(dict(data_type="file", data_uri=os.path.join(dirname, filename)))
 
-        # print "adding:",str(members_list)
+        print "adding:",str(members_list)
         _, members = datasetClient.create_members(catalog_id,geounit_id,members_list)
-        print members.get('code','Error')
+        print members
+        #print members.get('code','Error')
 
     # add_member something
     else:

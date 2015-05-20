@@ -19,10 +19,12 @@ from globusonline.catalog.client.goauth import get_access_token
 from completer import BufferAwareCompleter
 from query_dataset_client import get_catalogs, get_catalog_by_name, get_last_datasets
 
-from commands.util import UNDEFINED, SafeList, run_command
-from commands.annotate import parse_cmd_annotate
+from commands.util import UNDEFINED, SafeList, run_command, is_geounit_selected
 from commands.geounit import parse_cmd_geounit
-from commands.members import parse_cmd_add_member
+
+from commands.annotate import parse_cmd_annotate
+from commands.add_member import parse_cmd_add_member
+from commands.package import parse_cmd_package
 
 global datasetClient
 
@@ -141,6 +143,12 @@ if __name__ == '__main__':
     completer_suggestions = {
         'geounit':{'start':dataset_dict, 'delete':{}},
         'add_member':{},
+        'track':{},
+        'package':{'provenance':
+                         {'level':{'individual':{}, 'collaboration':{}, 'community':{}}
+                          },
+                     'level':{'individual':{}, 'collaboration':{}, 'community':{}}
+                     },
         'annotate':{'geounit':
                          {'geoprop1':{}, 'prop2':{}, 'fluid':{}
                           },
@@ -160,22 +168,25 @@ if __name__ == '__main__':
         raw_cmd = raw_input(geounit_name+" > ")
         cmd_to_run = raw_cmd
         cmd_splitted = SafeList(raw_cmd.split())
+        first_command = cmd_splitted.get(0)
 
-        if cmd_splitted.get(0) == "stop":
+        if first_command.upper() in ["STOP",'X']:
             break
-        elif cmd_splitted.get(0)=="geounit":
+        elif first_command == "geounit":
             geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted, mycatalog_id, geounit_id, datasetClient)
             if err_message != "":
                 print err_message
 
-        elif cmd_splitted.get(0)=="annotate":
-            parse_cmd_annotate(cmd_splitted, geounit_id, mycatalog_id, datasetClient)
+        elif first_command == "track":
+            if is_geounit_selected(geounit_id):
+                output = run_command("ls -l "+' '.join(cmd_splitted[1:]))
+                print output
 
-        elif cmd_splitted.get(0)=="add_member":
-            parse_cmd_add_member(cmd_splitted,mycatalog_id, geounit_id, datasetClient)
+        elif first_command in ["annotate", "add_member", "package"]:
+            locals()["parse_cmd_"+first_command](cmd_splitted, mycatalog_id, geounit_id, datasetClient)
+
         else:
             # any bash command that we want to pass to the system
-            #print "any cmd"
             run_command(cmd_to_run)
     print "done"
 

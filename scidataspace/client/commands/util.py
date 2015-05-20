@@ -32,3 +32,9 @@ def run_command(args, processing_function=cmd_print_output):
         print "   > ", sys.exc_info()[1]
 
     return output
+
+def is_geounit_selected(geounit_id):
+    if geounit_id is None:
+        print "please select geounit"
+        return False
+    return True

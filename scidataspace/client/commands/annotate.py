@@ -1,12 +1,11 @@
 from util import UNDEFINED
+from util import is_geounit_selected
 
 #######################################
 #   Parse annotation
 #######################################
-def parse_cmd_annotate(cmd_splitted, geounit_id, catalog_id, datasetClient):
-    if geounit_id is None:
-        print "please select geounit"
-        return
+def parse_cmd_annotate(cmd_splitted, catalog_id, geounit_id, datasetClient):
+    if  not is_geounit_selected(geounit_id): return
 
     cmd_2 = cmd_splitted.get(1,"")
 
