@@ -156,11 +156,15 @@ if __name__ == '__main__':
                      },
         'stop':{}
     }
-    readline.set_completer(BufferAwareCompleter(completer_suggestions).complete)
-
-    # Use the tab key for completion
-    readline.parse_and_bind('tab: complete')
-
+    gd_client_special_string = '--'
+    print ("gdclient commands start with  "+gd_client_special_string)
+    comp=BufferAwareCompleter(completer_suggestions,gd_client_special_string)
+    readline.set_completer_delims(' \t\n')
+    if 'libedit' in readline.__doc__:
+        readline.parse_and_bind("bind ^I rl_complete")
+    else:
+        readline.parse_and_bind("tab: complete")
+    readline.set_completer(comp.complete)
 
     geounit_name = UNDEFINED
     geounit_id = None
@@ -172,18 +176,18 @@ if __name__ == '__main__':
 
         if first_command.upper() in ["STOP",'X']:
             break
-        elif first_command == "geounit":
+        elif first_command == "--geounit":
             geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted, mycatalog_id, geounit_id, datasetClient)
             if err_message != "":
                 print err_message
 
-        elif first_command == "track":
+        elif first_command == "--track":
             if is_geounit_selected(geounit_id):
                 output = run_command("ls -l "+' '.join(cmd_splitted[1:]))
                 print output
 
-        elif first_command in ["annotate", "add_member", "package"]:
-            locals()["parse_cmd_"+first_command](cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
+        elif first_command in ["--annotate", "--add_member", "--package"]:
+            locals()["parse_cmd_"+first_command[2:]](cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
 
         else:
             # any bash command that we want to pass to the system
