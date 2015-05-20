@@ -28,7 +28,7 @@ COPY cde-root /
 #######################################
 #   Parse package
 #######################################
-def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient):
+def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     if  not is_geounit_selected(geounit_id): return
 
     cmd_2 = cmd_splitted.get(1,"")

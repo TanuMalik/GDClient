@@ -25,7 +25,7 @@ def cmd_count_files(process):
 #######################################
 #   Parse add_member
 #######################################
-def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient):
+def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient, db):
     #global db
     if  not is_geounit_selected(geounit_id): return
 
@@ -39,7 +39,7 @@ def parse_cmd_add_member(cmd_splitted,catalog_id, geounit_id, datasetClient):
         try:
             r, members = datasetClient.create_member(catalog_id,geounit_id,dict(data_type="file", data_uri=cmd_2))
             print members['id']
-            #db.Put("member."+cmd_2, str(members['id']))
+            db.Put("member."+cmd_2, str(members['id']))
         except:
             print "cannot add member "+cmd_2
             pass

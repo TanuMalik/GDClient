@@ -183,7 +183,7 @@ if __name__ == '__main__':
                 print output
 
         elif first_command in ["annotate", "add_member", "package"]:
-            locals()["parse_cmd_"+first_command](cmd_splitted, mycatalog_id, geounit_id, datasetClient)
+            locals()["parse_cmd_"+first_command](cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
 
         else:
             # any bash command that we want to pass to the system
