@@ -176,7 +176,7 @@ if __name__ == '__main__':
         cmd_splitted = SafeList(raw_cmd.split())
         first_command = cmd_splitted.get(0)
 
-        if first_command.upper() in ["STOP",'X']:
+        if first_command.upper() in ["--STOP",'X']:
             break
         elif first_command == "--geounit":
             geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted, mycatalog_id, geounit_id, datasetClient)
