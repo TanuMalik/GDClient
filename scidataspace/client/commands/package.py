@@ -59,7 +59,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         current_path = os.path.dirname(os.path.abspath(__file__))
         print "current_path=", current_path
 
-        ptu_path = os.path.join(current_path, "provenance-to-use-tmp","ptu")
+        ptu_path = os.path.join(current_path, "bin","ptu")
         cmd_2 = "ls q*"
         cmd_to_run = "%s %s" %(ptu_path, cmd_2)
         print "cmd_to_run=", cmd_to_run
