@@ -17,7 +17,7 @@ COPY cde-root /
 
     # build image
     c = docker.Client(base_url='unix://var/run/docker.sock', version="1.12")
-    docker_image_id=''
+    docker_image_id=None
     for response in c.build(path=cde_package_root, tag=tag, rm=True):
         #print response,
         s = json.loads(response)
@@ -30,9 +30,10 @@ COPY cde-root /
             raise Exception(s['errorDetail']['message'])
 
     if docker_image_id:
-        print "Successfully built image id ",docker_image_id.strip()
+        print "Successfully built image id ",docker_image_id
     else:
         print "Could not create image"
+    return docker_image_id
 
 #######################################
 #   Parse package
@@ -78,7 +79,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         #  create a docker container
         try:
             # build('../cde-package', tag='scidataspace/test:v2', cmd='/root/d/hello.py')
-            build('cde-package', tag='scidataspace/test:v2')
+            return build('cde-package', tag='scidataspace/test:v2')
         except Exception, ex:
             print "Error: {0}".format(ex)
     elif cmd_level == 'community':

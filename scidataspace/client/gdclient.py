@@ -25,6 +25,7 @@ from commands.geounit import parse_cmd_geounit
 from commands.annotate import parse_cmd_annotate
 from commands.add_member import parse_cmd_add_member
 from commands.package import parse_cmd_package
+from commands.transfer import parse_cmd_transfer
 
 global datasetClient
 
@@ -115,7 +116,6 @@ if __name__ == '__main__':
         print "cannot obtain a valid dataset client"
         exit(1)
 
-   
     mycatalog_id = cfg.gd_init_catalog(datasetClient)
     #print "mycatalog_id=",mycatalog_id
 
@@ -125,6 +125,7 @@ if __name__ == '__main__':
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
     ## LevelDB local database
     levelDB_local_database = ".gdclient/.gdclient_levelDB"
+    docker_image_id = None
     ## Add history
     histfile = ".gdclient/.gd_history"
     try:
@@ -144,6 +145,7 @@ if __name__ == '__main__':
         'geounit':{'start':dataset_dict, 'delete':{}},
         'add_member':{},
         'track':{},
+        'transfer':{},
         'package':{'provenance':
                          {'level':{'individual':{}, 'collaboration':{}, 'community':{}}
                           },
@@ -186,7 +188,16 @@ if __name__ == '__main__':
                 output = run_command("ls -l "+' '.join(cmd_splitted[1:]))
                 print output
 
-        elif first_command in ["--annotate", "--add_member", "--package"]:
+        elif first_command == "--transfer":
+            if is_geounit_selected(geounit_id):
+                parse_cmd_transfer(cmd_splitted,docker_image_id, cfg)
+
+        elif first_command == "--package":
+            new_image_id = parse_cmd_package(cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
+            if new_image_id:
+                docker_image_id = new_image_id
+
+        elif first_command in ["--annotate", "--add_member"]:
             locals()["parse_cmd_"+first_command[2:]](cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
 
         else:
