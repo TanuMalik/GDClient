@@ -156,12 +156,15 @@ class BufferAwareCompleter(object):
             if len(self.current_candidates)>0:
                 return response
 
-        # check if we should do path completion
+        # # check if we should do path completion
         # cmd = line[0]
+        # if not self.cmd_lookup:
+        #     self._generate(cmd)
         # if not cmd in self.cmd_lookup or not self.cmd_lookup[cmd]:
         #     return None
 
-        self.path_lookup = self.complete_path(text)
+        if state == 0:
+            self.path_lookup = self._complete_path(os.path.expanduser(text))
         return (self.path_lookup + [None])[state]
 
     def complete_me(self, text, state):
