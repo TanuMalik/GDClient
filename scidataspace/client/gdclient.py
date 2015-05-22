@@ -150,7 +150,9 @@ if __name__ == '__main__':
         'package':{'provenance':
                          {'level':{'individual':{}, 'collaboration':{}, 'community':{}}
                           },
-                     'level':{'individual':{}, 'collaboration':{}, 'community':{}}
+                     'level':{'individual':{}, 'collaboration':{}, 'community':{}},
+                     'list':{},
+                     'delete':{},
                      },
         'annotate':{'geounit':
                          {'geoprop1':{}, 'prop2':{}, 'fluid':{}
@@ -173,11 +175,11 @@ if __name__ == '__main__':
     geounit_id = None
     while True :
         raw_cmd = raw_input(geounit_name+" > ")
-        cmd_to_run = raw_cmd
+        cmd_to_run = raw_cmd.strip()
         cmd_splitted = SafeList(raw_cmd.split())
-        first_command = cmd_splitted.get(0)
+        first_command = cmd_splitted.get(0,'')
 
-        if first_command.upper() in ["--STOP",'X']:
+        if first_command.upper() in ['--STOP','X']:
             break
         elif first_command == "--geounit":
             geounit_name, geounit_id, err_message = parse_cmd_geounit(cmd_splitted, mycatalog_id, geounit_id, datasetClient)

@@ -1,10 +1,21 @@
-from util import UNDEFINED
-from util import is_geounit_selected, run_command
+from util import UNDEFINED,is_geounit_selected, run_command
+from _leveldb2json import create_graph
 
 import docker
 import json
-import os
+import os, sys
 import re
+import shutil
+
+import hashlib
+from datetime import datetime
+
+def create_hash(input_string):
+    h = hashlib.new('ripemd160')
+    #input_string = "geounitname.geounitid.programname <with special chars stripped off>"
+    str_now=str(datetime.now())
+    h.update(input_string.encode('utf-8')+str_now)
+    return h.hexdigest()
 
 def build(cde_package_root, tag=None, cmd=None):
     # create Dockerfile
@@ -41,51 +52,129 @@ COPY cde-root /
 def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     if  not is_geounit_selected(geounit_id): return
 
-    cmd_2 = cmd_splitted.get(1,"")
+    working_path = os.getcwd()
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    #print "current_path=", current_path
+    executable = os.path.join(current_path, "bin","ptu")
+    packages_json_file = os.path.join(working_path, ".gdclient","packages","packages.json")
+    with open(packages_json_file) as data_file:
+        packages_json = json.load(data_file)
+    boolWithProvenance = False
 
-    executable = "ls" # cde
+    cmd_2 = cmd_splitted.get(1,"")
+    ########
+    #       list subcommand
+    ########
+    if cmd_2 == "list":
+        print len(packages_json)," packages available:"
+        for k in packages_json:
+            print k,"  ",\
+            packages_json[k]['date'],'   ',\
+            packages_json[k]['command']
+        return
+
+    ########
+    #       delete subcommand
+    ########
+    if cmd_2 == "delete":
+        package_id = cmd_splitted.get(2,"")
+        if packages_json.get(package_id,UNDEFINED) == UNDEFINED:
+            print "cannot find package id ",package_id
+            return
+        packages_json.pop(package_id, None)
+        package_directory = os.path.join(working_path, ".gdclient","packages",package_id)
+        try:
+            shutil.rmtree(package_directory)
+        except Exception as e:
+            print "cannot delet folder"
+            sys.stderr.write(str(e) + "\n")
+
+        with open(packages_json_file, 'w') as outfile:
+            json.dump(packages_json, outfile, sort_keys = True, indent = 4)
+        return
+
+
     cmd_level_index = 2
-    # annotate geounit
+    # with provenance - create json
     if cmd_2 == "provenance":
-        executable = "ls -l"  # ptu
-        cmd_level_index = 3
+        boolWithProvenance = True
+        cmd_level_index += 1
+
+    ########
+    #       individual subcommand
+    ########
 
     cmd_level = cmd_splitted.get(cmd_level_index,"")
     if cmd_level == 'individual':
-        #output = run_command(executable+' '+' '.join(cmd_splitted[cmd_level_index+1:]))
-        working_path = os.getcwd()
-        print run_command("rm -rf "+os.path.join(working_path, "cde-package"))
+        cde_directory = os.path.join(working_path, "cde-package")
 
-        current_path = os.path.dirname(os.path.abspath(__file__))
-        print "current_path=", current_path
+        # make sure that LevelDB database does not exist
+        if os.path.isdir(cde_directory):
+            shutil.rmtree(cde_directory)
 
-        ptu_path = os.path.join(current_path, "bin","ptu")
-        cmd_2 = "ls q*"
-        cmd_to_run = "%s %s" %(ptu_path, cmd_2)
+        user_command = ' '.join(cmd_splitted[cmd_level_index+1:])
+        cmd_to_run = "%s %s" %(executable, user_command)
         print "cmd_to_run=", cmd_to_run
-        print run_command(cmd_to_run)
-        print run_command("ls -l "+os.path.join(working_path, "cde-package"))
-        # now we have "cde-package" in working_path
 
+        # this will create cde.option file and cde-package directory
+        run_command(cmd_to_run)
+        package_hash = create_hash(cmd_to_run)
+        package_directory = os.path.join(working_path, ".gdclient","packages",package_hash)
+        if not os.path.exists(package_directory):
+            os.makedirs(package_directory)
+
+        shutil.move(os.path.join(working_path, "cde.options"), package_directory)
+        shutil.move(cde_directory, package_directory)
+
+        # create json file, if is specified in command
+        if boolWithProvenance:
+            graph_dict = create_graph(package_directory+"cde-package/provenance.cde-root.1.log")
+
+            json_file_name = os.path.join(package_directory,"filex.json")
+
+            with open(json_file_name, 'w') as outfile:
+                json.dump(graph_dict, outfile, sort_keys = True, indent = 4)
+
+        # need to store package hash in a list
+        print "package_hash=",package_hash
+        packages_json[package_hash]= dict(command= user_command, date=str(datetime.now()))
+        with open(packages_json_file, 'w') as outfile:
+            json.dump(packages_json, outfile, sort_keys = True, indent = 4)
+
+    ########
+    #       collaboration subcommand
+    ########
 
     elif cmd_level == 'collaboration':
+        package_id = cmd_splitted.get(cmd_level_index+1,"")
         # test if individual is completed ; package exists
-        working_path = os.getcwd()
-        cde_path = os.path.join(working_path, "cde-package")
-        if not os.path.isdir(cde_path):
-            print "Package does not exists; please use option 'individual' "
+        package_directory = os.path.join(working_path, ".gdclient","packages",package_id)
+        if packages_json.get(package_id,UNDEFINED) == UNDEFINED:
+            print "cannot find package id ",package_id
+            return
+        package_directory = os.path.join(working_path, ".gdclient","packages",package_id)
+        if not os.path.isdir(package_directory):
+            print "ERROR: Package folder does not exists"
             return
 
         #  create a docker container
+        docker_container_id = UNDEFINED
         try:
             # build('../cde-package', tag='scidataspace/test:v2', cmd='/root/d/hello.py')
-            return build('cde-package', tag='scidataspace/test:v2')
+            docker_container_id = build(package_directory+'/cde-package', tag=package_id)
+            print "Successfull"
+            return docker_container_id
         except Exception, ex:
             print "Error: {0}".format(ex)
+
+    ########
+    #       community subcommand
+    ########
+
     elif cmd_level == 'community':
         # TODO: test if collaboration is completed ; docker file is created
 
         # TODO: put a docker file as part of docker container
         pass
     else:
-        print "USAGE: package [provenance] [individual |collaboration| community] package-directory"
+        print "USAGE: package [provenance] list| delete| level [individual <program name>| collaboration <package id>| community] "

@@ -1,5 +1,7 @@
-from util import run_command
+from util import UNDEFINED,run_command
 
+import re
+import os
 import urllib
 from sys import platform as _platform
 
@@ -7,8 +9,10 @@ from sys import platform as _platform
 #   Parse transfer
 #######################################
 def parse_cmd_transfer(cmd_splitted, image_id=None, cfg=None):
-    if not image_id:
-        print "Cannot identify image; please run --package command"
+    image_id = cmd_splitted.get(1,UNDEFINED)
+    output = os.system("docker images | grep "+image_id+" | wc -l")
+    if str(output).strip()=="1":
+        print "Cannot find image "+image_id+" for transfer; please run --package level collaboration"
         return
 
     if not cfg.config['GLOBUS']['local-endpoint']:
