@@ -26,6 +26,7 @@ from commands.annotate import parse_cmd_annotate
 from commands.add_member import parse_cmd_add_member
 from commands.package import parse_cmd_package
 from commands.transfer import parse_cmd_transfer
+from commands.track import parse_cmd_track
 
 global datasetClient
 
@@ -185,8 +186,7 @@ if __name__ == '__main__':
 
         elif first_command == "--track":
             if is_geounit_selected(geounit_id):
-                output = run_command("ls -l "+' '.join(cmd_splitted[1:]))
-                print output
+                parse_cmd_track(cmd_splitted)
 
         elif first_command == "--transfer":
             if is_geounit_selected(geounit_id):
