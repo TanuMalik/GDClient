@@ -1,4 +1,4 @@
-from util import UNDEFINED
+from scidataspace.client.commands.util import UNDEFINED
 
 #######################################
 #   Parse geounit command

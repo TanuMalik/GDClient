@@ -1,4 +1,4 @@
-from util import UNDEFINED,run_command
+from scidataspace.client.commands.util import UNDEFINED,run_command
 
 import re
 import os

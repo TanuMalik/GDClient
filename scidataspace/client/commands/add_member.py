@@ -1,6 +1,6 @@
 import  os
 import re
-from util import is_geounit_selected
+from scidataspace.client.commands.util import is_geounit_selected
 
 ###
 ##  this function needs debug

@@ -1,7 +1,7 @@
 import os
 import json
-from util import run_command
-from _leveldb2json import create_graph
+from scidataspace.client.commands.util import run_command
+from scidataspace.client.commands._leveldb2json import create_graph
 
 #######################################
 #   Parse track
