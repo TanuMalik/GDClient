@@ -1,0 +1,219 @@
+{
+    "entity": {
+        "prov:en17--/home/ubuntu/uploadToS3.py": {
+            "prov:UUID": {
+                "$": "1432324941879707/home/ubuntu/uploadToS3.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.879707", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en20--/home/ubuntu/vic_calc_mnth_mc.py": {
+            "prov:UUID": {
+                "$": "1432324937816012/home/ubuntu/vic_calc_mnth_mc.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.816012", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en22--/home/ubuntu/vic_soil_moisture.py": {
+            "prov:UUID": {
+                "$": "1432324940777842/home/ubuntu/vic_soil_moisture.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.777842", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en27--/home/ubuntu/vicSoilMoistureEcohydro.pdf": {
+            "prov:UUID": {
+                "$": "1432324942087106/home/ubuntu/vicSoilMoistureEcohydro.pdf1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:22.087106", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en28--/home/ubuntu/vicSoilMoistureEcohydro.pdf": {
+            "prov:UUID": {
+                "$": "1432324941232950/home/ubuntu/vicSoilMoistureEcohydro.pdf1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.232950", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en29--/home/ubuntu/spatiotempdatabase.py": {
+            "prov:UUID": {
+                "$": "1432324937821611/home/ubuntu/spatiotempdatabase.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.821611", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en3--/home/ubuntu/vic_monthly_soilmoisture.py": {
+            "prov:UUID": {
+                "$": "1432324940075274/home/ubuntu/vic_monthly_soilmoisture.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.075274", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en31--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324940223477/home/ubuntu/spatiotempSoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.223477", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en32--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324937933203/home/ubuntu/spatiotempSoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.933203", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en36--/home/ubuntu/run_psp_vic_soilmoisture.scr": {
+            "prov:UUID": {
+                "$": "1432324937774007/home/ubuntu/run_psp_vic_soilmoisture.scr1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.774007", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en4--/home/ubuntu/monthlySoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324941145557/home/ubuntu/monthlySoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.145557", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en5--/home/ubuntu/monthlySoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324940740018/home/ubuntu/monthlySoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.740018", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en6--/home/ubuntu/default": {
+            "prov:UUID": {
+                "$": "1432324937821933/home/ubuntu/default1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.821933", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }
+    }, 
+    "prefix": {
+        "prov": "http://example.org"
+    }, 
+    "wasDerivedFrom": {
+        "_:wDF1": {
+            "prov:generatedEntity": "prov:en32--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv", 
+            "prov:usedEntity": "prov:en6--/home/ubuntu/default"
+        }, 
+        "_:wDF2": {
+            "prov:generatedEntity": "prov:en32--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv", 
+            "prov:usedEntity": "prov:en20--/home/ubuntu/vic_calc_mnth_mc.py"
+        }, 
+        "_:wDF3": {
+            "prov:generatedEntity": "prov:en5--/home/ubuntu/monthlySoilMoistureEcohydro.csv", 
+            "prov:usedEntity": "prov:en31--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv"
+        }, 
+        "_:wDF4": {
+            "prov:generatedEntity": "prov:en28--/home/ubuntu/vicSoilMoistureEcohydro.pdf", 
+            "prov:usedEntity": "prov:en4--/home/ubuntu/monthlySoilMoistureEcohydro.csv"
+        }, 
+        "_:wDF5": {
+            "prov:generatedEntity": "prov:en5--/home/ubuntu/monthlySoilMoistureEcohydro.csv", 
+            "prov:usedEntity": "prov:en3--/home/ubuntu/vic_monthly_soilmoisture.py"
+        }, 
+        "_:wDF6": {
+            "prov:generatedEntity": "prov:en28--/home/ubuntu/vicSoilMoistureEcohydro.pdf", 
+            "prov:usedEntity": "prov:en22--/home/ubuntu/vic_soil_moisture.py"
+        }, 
+        "_:wDF7": {
+            "prov:generatedEntity": "prov:en32--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv", 
+            "prov:usedEntity": "prov:en29--/home/ubuntu/spatiotempdatabase.py"
+        }
+    }
+}

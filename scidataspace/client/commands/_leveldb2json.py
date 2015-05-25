@@ -78,7 +78,7 @@ def create_graph(input_file):
     if not db:
         print "Cannot obtain link to LevelDB database"
         return None
-    #print_my_leveldb(db, ['pid','prv.iopid','file','prv.iofile','prv.file'])
+    # print_my_leveldb(db, ['pid','prv.iopid','file','prv.iofile','prv.file'])
 
     def format_time(unix_time):
         starttime=float(unix_time)/1000000
@@ -90,34 +90,74 @@ def create_graph(input_file):
 
     # populate activities
     activities_dict = find_activities(db)
-    i=0
+    counter_entity=1
     for pidkey in activities_dict:
         activities = mydict.get('activity',{})
 
         #activity_name = geounit_namespace+":"+activities_dict[pidkey]
-        activity_name = geounit_namespace+":act"+str(i)+"--"+activities_dict[pidkey]
+        activity_name = geounit_namespace+":act"+str(counter_entity)+"--"+activities_dict[pidkey]
         activities_dict[pidkey] = activity_name
-        activities[activity_name] = {"prov:type": {"$": "act"+str(i),"type": "xsd:string"}, \
+        activities[activity_name] = {"prov:type": {"$": "act"+str(counter_entity),"type": "xsd:string"}, \
           "prov:startTime": format_time(pidkey.split('.')[1]),
           "prov:endTime": format_time(db.Get('prv.pid.'+pidkey+'.iexit'))
         }
         mydict['activity'] = activities
-        i = i+1
+        counter_entity = counter_entity+1
 
+    # 'prv.pid.24245.1432324941848481.exec.1432324941985923' -> [22] '24246.1432324941985923'
+    # using sample line, let's generate
+
+    wasInformedBy_dict = {}
+    wasInformedBy_cnt = 1
+    # "wasInformedBy": {
+    # "_:Infm2": {
+    #     "prov:informant": "a1",
+    #     "prov:informed": "a2"
+
+
+    for pidkey in activities_dict:
+        mylist = []
+        for (k, v) in db.RangeIter(key_from='prv.pid.'+pidkey+'.exec', key_to='prv.pid.'+pidkey+'.execzzz'):
+            mylist.append(activities_dict[v])
+            wasInformedBy_dict["_:Infm"+str(wasInformedBy_cnt)]= {
+                "prov:informant":activities_dict[pidkey],
+                "prov:informed":activities_dict[v]
+            }
+            wasInformedBy_cnt += 1
+        # print activities_dict[pidkey],' started ',str(mylist)
+
+    # print wasInformedBy_dict
+    mydict['wasInformedBy']=wasInformedBy_dict
 
     #[51] 'prv.iopid.53151.1423602527480983.1.1423602529111612' -> [29] '/usr/lib/python2.7/codecs.pyc'
     files={v:k for pidkey in activities_dict for (k, v) in db.RangeIter(key_from='prv.iopid.'+pidkey, key_to='prv.iopid.'+pidkey+'.z') if isFilteredPath(v) and k[-2:]!="fd"}
 
+    # files = k:v, k = file/entity, v= list of activities which needed file k
+    files={}
+    for pidkey in activities_dict:
+        for (k, v) in db.RangeIter(key_from='prv.iopid.'+pidkey, key_to='prv.iopid.'+pidkey+'.z'):
+            if isFilteredPath(v) and k[-2:]!="fd":
+                if files.get(v,None) is None:
+                    files[v]=[]
+                # add only unique 'prv.iopid.24243.1432324940044957.1' from 'prv.iopid.24243.1432324940044957.1.1432324940223477'
+                compare = '.'.join(k.split('.')[:5])
+                boolWillAdd = True
+                for prviopid_key in files[v]:
+                    # print "compare ",compare, " with ",prviopid_key
+                    if prviopid_key.startswith(compare):
+                        boolWillAdd = False
+                if boolWillAdd:
+                    files[v].append(k)
+
     #pprint(files)
 
-    counter_used = 0
-    counter_was_generated_by = 0
-
-
     entities_dict = {} #file_name : entity_name
-    i=0
+    counter_entity=1
+    counter_used = 1
+    counter_was_generated_by = 1
 
     for  str_path in files:
+
         # ignore font files; needs rework
         if str_path.startswith('/home/cristian/.cache/fontconfig'):
             continue
@@ -130,52 +170,58 @@ def create_graph(input_file):
         if unicode(str_path, errors='ignore') != unicode(str_path, errors='replace'):
             continue
 
-        pidkey = files[str_path]
-        keys = pidkey.split('.')
-        # now, it looks like this:
-        #['prv', 'iopid', '53151', '1423602527480983', '1', '1423602528323494']
-        #/usr/lib/python2.7/_abcoll.py
 
-        # populate entity fields
-        entities = mydict.get('entity',{})
+        # print "--- Activity records for file ",str_path
+        # print files[str_path]
 
-        str_datetime = format_time(keys[-1])
-        entity_name = geounit_namespace+":en"+str(i)+"--"+str_path.replace(':','_')
-        str_uuid = keys[-1]+str_path+version
+        # pidkey = files[str_path]
+        for pidkey in files[str_path]:
 
-        entities[entity_name] = {geounit_namespace+':creationTime':{'$':str_datetime,"type": "xsd:string"}, \
-                                 geounit_namespace+':UUID':{"$": str_uuid,"type": "xsd:string"},\
-                                 geounit_namespace+':version':{"$": version,"type": "xsd:string"}\
-                                }
+            keys = pidkey.split('.')
+            # now, it looks like this:
+            #['prv', 'iopid', '53151', '1423602527480983', '1', '1423602528323494']
+            #/usr/lib/python2.7/_abcoll.py
 
-        mydict['entity'] = entities
-        entities_dict[str_path] = entity_name
+            # populate entity fields
+            entities = mydict.get('entity',{})
 
-        #ignore dumb activities (without fields)
-        activity_name =activities_dict.get(keys[2]+'.'+keys[3],"")
+            str_datetime = format_time(keys[-1])
+            entity_name = geounit_namespace+":en"+str(counter_entity)+"--"+str_path.replace(':','_')
+            str_uuid = keys[-1]+str_path+version
 
-        if activity_name == "":
-            continue
+            entities[entity_name] = {geounit_namespace+':creationTime':{'$':str_datetime,"type": "xsd:string"}, \
+                                     geounit_namespace+':UUID':{"$": str_uuid,"type": "xsd:string"},\
+                                     geounit_namespace+':version':{"$": version,"type": "xsd:string"}\
+                                    }
 
-        # create used / generated_by
-        entity_name = entities_dict[str_path]
-        activity_key = 'prov:activity'
-        entity_key = 'prov:entity'
-        if keys[4] == '1':
-            used = mydict.get('used',{})
-            used_name="_:u"+str(counter_used)
-            used[used_name] = {activity_key:activity_name, \
-                               entity_key:entity_name}
-            mydict['used'] = used
-            counter_used+=1
-        elif (keys[4] == '2' or keys[4] == '3' ):
-            wasgeneratedby = mydict.get('wasgeneratedby',{})
-            wgb_name="_:wGB"+str(counter_was_generated_by)
-            wasgeneratedby[wgb_name] = {activity_key:activity_name, \
-                                        entity_key:entity_name}
-            mydict['wasgeneratedby'] = wasgeneratedby
-            counter_was_generated_by += 1
-        i = i+1
+            mydict['entity'] = entities
+            entities_dict[str_path] = entity_name
+
+            #ignore dumb activities (without fields)
+            activity_name =activities_dict.get(keys[2]+'.'+keys[3],"")
+
+            if activity_name == "":
+                continue
+
+            # create used / generated_by
+            entity_name = entities_dict[str_path]
+            activity_key = 'prov:activity'
+            entity_key = 'prov:entity'
+            if keys[4] == '1':
+                used = mydict.get('used',{})
+                used_name="_:u"+str(counter_used)
+                used[used_name] = {activity_key:activity_name, \
+                                   entity_key:entity_name}
+                mydict['used'] = used
+                counter_used+=1
+            elif keys[4] in ['2','3']:
+                wasgeneratedby = mydict.get('wasgeneratedby',{})
+                wgb_name="_:wGB"+str(counter_was_generated_by)
+                wasgeneratedby[wgb_name] = {activity_key:activity_name, \
+                                            entity_key:entity_name}
+                mydict['wasgeneratedby'] = wasgeneratedby
+                counter_was_generated_by += 1
+            counter_entity = counter_entity+1
 
     return mydict
 

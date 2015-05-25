@@ -1,0 +1,89 @@
+{
+    "activity": {
+        "prov:act1--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:22.125818", 
+            "prov:startTime": "2015-05-22T20:02:21.848481", 
+            "prov:type": {
+                "$": "act1", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act2--/bin/uname": {
+            "prov:endTime": "2015-05-22T20:02:21.989535", 
+            "prov:startTime": "2015-05-22T20:02:21.987940", 
+            "prov:type": {
+                "$": "act2", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act3--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:21.845674", 
+            "prov:startTime": "2015-05-22T20:02:20.746781", 
+            "prov:type": {
+                "$": "act3", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act4--/bin/sh": {
+            "prov:endTime": "2015-05-22T20:02:21.989865", 
+            "prov:startTime": "2015-05-22T20:02:21.985923", 
+            "prov:type": {
+                "$": "act4", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act5--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:20.745398", 
+            "prov:startTime": "2015-05-22T20:02:20.044957", 
+            "prov:type": {
+                "$": "act5", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr": {
+            "prov:endTime": "2015-05-22T20:02:22.126845", 
+            "prov:startTime": "2015-05-22T20:02:17.771050", 
+            "prov:type": {
+                "$": "act6", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act7--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:20.044018", 
+            "prov:startTime": "2015-05-22T20:02:17.778133", 
+            "prov:type": {
+                "$": "act7", 
+                "type": "xsd:string"
+            }
+        }
+    }, 
+    "prefix": {
+        "prov": "http://example.org"
+    }, 
+    "wasInformedBy": {
+        "_:Infm1": {
+            "prov:informant": "prov:act1--/usr/bin/python", 
+            "prov:informed": "prov:act4--/bin/sh"
+        }, 
+        "_:Infm2": {
+            "prov:informant": "prov:act4--/bin/sh", 
+            "prov:informed": "prov:act2--/bin/uname"
+        }, 
+        "_:Infm3": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act7--/usr/bin/python"
+        }, 
+        "_:Infm4": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act5--/usr/bin/python"
+        }, 
+        "_:Infm5": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act3--/usr/bin/python"
+        }, 
+        "_:Infm6": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act1--/usr/bin/python"
+        }
+    }
+}
