@@ -57,8 +57,11 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     #print "current_path=", current_path
     executable = os.path.join(current_path, "bin","ptu")
     packages_json_file = os.path.join(working_path, ".gdclient","packages","packages.json")
-    with open(packages_json_file) as data_file:
-        packages_json = json.load(data_file)
+    try:
+        with open(packages_json_file) as data_file:
+            packages_json = json.load(data_file)
+    except:
+        packages_json = {}
     boolWithProvenance = False
 
     cmd_2 = cmd_splitted.get(1,"")
