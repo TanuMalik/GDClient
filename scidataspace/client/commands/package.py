@@ -1,5 +1,5 @@
-from util import UNDEFINED,is_geounit_selected, run_command
-from _leveldb2json import create_graph
+from scidataspace.client.commands.util import UNDEFINED,is_geounit_selected, run_command
+from scidataspace.client.commands._leveldb2json import create_graph
 
 import docker
 import json

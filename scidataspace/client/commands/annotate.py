@@ -1,5 +1,5 @@
-from util import UNDEFINED
-from util import is_geounit_selected
+from scidataspace.client.commands.util import UNDEFINED
+from scidataspace.client.commands.util import is_geounit_selected
 
 #######################################
 #   Parse annotation
