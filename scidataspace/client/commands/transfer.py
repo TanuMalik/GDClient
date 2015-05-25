@@ -51,5 +51,5 @@ def parse_cmd_transfer(cmd_splitted, image_id=None, cfg=None):
         # Windows, we don't support this, yet
         pass
 
-    run_command(command+start_url+URI)
+    run_command(command+start_url+URI+" >/dev/null 2>/dev/null &")
     #print "USAGE: transfer [destination_endpoint:destination_folder]"

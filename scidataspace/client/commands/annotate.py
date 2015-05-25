@@ -12,6 +12,7 @@ def parse_cmd_annotate(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     # annotate geounit
     if cmd_2 == "geounit":
         for geo_prop_value in cmd_splitted[2:]:
+            # print "xxx: ",geo_prop_value
             geo_property, geo_value = geo_prop_value.split(':')
 
             #creates a annotation definition; type="text, multivalue=True
@@ -36,7 +37,7 @@ def parse_cmd_annotate(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
                     try:
                         _, annotation_def = datasetClient.create_annotation_def(catalog_id,member_annotation_name,"text",True)
                     except:
-                        print "annotation definition already exists"
+                        # print "annotation definition already exists"
                         pass
                     r, annotation = datasetClient.add_member_annotations(catalog_id,geounit_id, member_id,
                                                                         {member_annotation_name: member_annotation_value})

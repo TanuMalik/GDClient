@@ -109,41 +109,45 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
 
     cmd_level = cmd_splitted.get(cmd_level_index,"")
     if cmd_level == 'individual':
-        cde_directory = os.path.join(working_path, "cde-package")
+        try:
+            cde_directory = os.path.join(working_path, "cde-package")
 
-        # make sure that LevelDB database does not exist
-        if os.path.isdir(cde_directory):
-            shutil.rmtree(cde_directory)
+            # make sure that LevelDB database does not exist
+            if os.path.isdir(cde_directory):
+                shutil.rmtree(cde_directory)
 
-        user_command = ' '.join(cmd_splitted[cmd_level_index+1:])
-        cmd_to_run = "%s %s" %(executable, user_command)
-        print "cmd_to_run=", cmd_to_run
+            user_command = ' '.join(cmd_splitted[cmd_level_index+1:])
+            cmd_to_run = "%s %s 2>/dev/null" %(executable, user_command)
+            # print "cmd_to_run=", cmd_to_run
 
-        # this will create cde.option file and cde-package directory
-        run_command(cmd_to_run)
-        package_hash = create_hash(cmd_to_run)
-        package_directory = os.path.join(working_path, ".gdclient","packages",package_hash)
-        if not os.path.exists(package_directory):
-            os.makedirs(package_directory)
+            # this will create cde.option file and cde-package directory
+            run_command(cmd_to_run)
+            package_hash = create_hash(cmd_to_run)
+            package_directory = os.path.join(working_path, ".gdclient","packages",package_hash)
+            if not os.path.exists(package_directory):
+                os.makedirs(package_directory)
 
-        shutil.move(os.path.join(working_path, "cde.options"), package_directory)
-        shutil.move(cde_directory, package_directory)
+            shutil.move(os.path.join(working_path, "cde.options"), package_directory)
+            shutil.move(cde_directory, package_directory)
 
-        # create json file, if is specified in command
-        if boolWithProvenance:
-            graph_dict = create_graph(package_directory+"cde-package/provenance.cde-root.1.log")
+            # create json file, if is specified in command
+            if boolWithProvenance:
+                graph_dict = create_graph(package_directory+"cde-package/provenance.cde-root.1.log")
 
-            json_file_name = os.path.join(package_directory,"filex.json")
+                json_file_name = os.path.join(package_directory,"filex.json")
 
-            with open(json_file_name, 'w') as outfile:
-                json.dump(graph_dict, outfile, sort_keys = True, indent = 4)
+                with open(json_file_name, 'w') as outfile:
+                    json.dump(graph_dict, outfile, sort_keys = True, indent = 4)
 
-        # need to store package hash in a list
-        print "package_hash=",package_hash
-        packages_json[package_hash]= dict(command= user_command, date=str(datetime.now()))
-        with open(packages_json_file, 'w') as outfile:
-            json.dump(packages_json, outfile, sort_keys = True, indent = 4)
-
+            # need to store package hash in a list
+            print "package_hash=",package_hash
+            packages_json[package_hash]= dict(command= user_command, date=str(datetime.now()))
+            with open(packages_json_file, 'w') as outfile:
+                json.dump(packages_json, outfile, sort_keys = True, indent = 4)
+        except:
+            # print "Unexpected error:", sys.exc_info()[0]
+            print "USAGE: --package level individual <program to execute>"
+            pass
     ########
     #       collaboration subcommand
     ########
