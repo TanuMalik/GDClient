@@ -1,9 +1,6 @@
 __author__ = 'cristian'
 
-import os, sys, subprocess
-import datetime,json, re
-from pprint import pprint
-
+import os, sys
 
 import code
 import logging
@@ -40,7 +37,7 @@ def init_DatasetClient(goauth_token,BASE_URL):
         exit(1)
 
 class GDConfig:
-    config_file_name = ".gdclient/config.ini"
+    config_file_name = None
     config = None
 
     ## Read the config.ini file and check if URL is set
@@ -50,6 +47,7 @@ class GDConfig:
     ## If Globus token is none, Obtain Globus token and store it, else proceed
     ## Return config
     def __init__(self):
+        self.config_file_name = os.path.join(os.path.expanduser("~"),'.gdclient','config.ini')
         self.config = configparser.ConfigParser()
         self.config.read_file(open(self.config_file_name))
         if self.get_cfg_field('URL') == "None":
@@ -109,6 +107,11 @@ class GDConfig:
 
 
 if __name__ == '__main__':
+    home_folder = os.path.expanduser("~")
+    dot_gdclient_folder = os.path.join(home_folder,'.gdclient')
+    if not os.path.exists(dot_gdclient_folder):
+        os.makedirs(dot_gdclient_folder)
+
     # Read configuration file
     cfg = GDConfig()
     
@@ -128,10 +131,11 @@ if __name__ == '__main__':
 
     ## check if the LevelDB local database and histfile exists; if not create; if yes re-use	
     ## LevelDB local database
-    levelDB_local_database = ".gdclient/.gdclient_levelDB"
+
+    levelDB_local_database = os.path.join(dot_gdclient_folder,".gdclient_levelDB")
     docker_image_id = None
     ## Add history
-    histfile = ".gdclient/.gd_history"
+    histfile = os.path.join(dot_gdclient_folder,".gd_history")
     try:
         readline.read_history_file(histfile)
     except IOError:
