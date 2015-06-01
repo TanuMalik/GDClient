@@ -1,0 +1,779 @@
+{
+    "activity": {
+        "prov:act1--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:22.125818", 
+            "prov:startTime": "2015-05-22T20:02:21.848481", 
+            "prov:type": {
+                "$": "act1", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act2--/bin/uname": {
+            "prov:endTime": "2015-05-22T20:02:21.989535", 
+            "prov:startTime": "2015-05-22T20:02:21.987940", 
+            "prov:type": {
+                "$": "act2", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act3--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:21.845674", 
+            "prov:startTime": "2015-05-22T20:02:20.746781", 
+            "prov:type": {
+                "$": "act3", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act4--/bin/sh": {
+            "prov:endTime": "2015-05-22T20:02:21.989865", 
+            "prov:startTime": "2015-05-22T20:02:21.985923", 
+            "prov:type": {
+                "$": "act4", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act5--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:20.745398", 
+            "prov:startTime": "2015-05-22T20:02:20.044957", 
+            "prov:type": {
+                "$": "act5", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr": {
+            "prov:endTime": "2015-05-22T20:02:22.126845", 
+            "prov:startTime": "2015-05-22T20:02:17.771050", 
+            "prov:type": {
+                "$": "act6", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:act7--/usr/bin/python": {
+            "prov:endTime": "2015-05-22T20:02:20.044018", 
+            "prov:startTime": "2015-05-22T20:02:17.778133", 
+            "prov:type": {
+                "$": "act7", 
+                "type": "xsd:string"
+            }
+        }
+    }, 
+    "entity": {
+        "prov:en1--/home/ubuntu/default/fluxes_34.9995_-81.3343": {
+            "prov:UUID": {
+                "$": "1432324938268610/home/ubuntu/default/fluxes_34.9995_-81.33431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.268610", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en10--/home/ubuntu/default/fluxes_34.9995_-81.5843": {
+            "prov:UUID": {
+                "$": "1432324937934410/home/ubuntu/default/fluxes_34.9995_-81.58431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.934410", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en11--/home/ubuntu/default/fluxes_34.8745_-81.4593": {
+            "prov:UUID": {
+                "$": "1432324938045438/home/ubuntu/default/fluxes_34.8745_-81.45931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.045438", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en12--/home/ubuntu/.cache/matplotlib/fontList.cache": {
+            "prov:UUID": {
+                "$": "1432324941033335/home/ubuntu/.cache/matplotlib/fontList.cache1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.033335", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en13--/home/ubuntu/default/fluxes_34.4995_-81.2093": {
+            "prov:UUID": {
+                "$": "1432324939548182/home/ubuntu/default/fluxes_34.4995_-81.20931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.548182", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en14--/home/ubuntu/default/fluxes_34.7495_-81.5843": {
+            "prov:UUID": {
+                "$": "1432324938952503/home/ubuntu/default/fluxes_34.7495_-81.58431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.952503", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en15--/home/ubuntu/default/fluxes_34.7495_-81.2093": {
+            "prov:UUID": {
+                "$": "1432324938720195/home/ubuntu/default/fluxes_34.7495_-81.20931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.720195", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en16--/home/ubuntu/default/fluxes_34.8745_-81.5843": {
+            "prov:UUID": {
+                "$": "1432324939069849/home/ubuntu/default/fluxes_34.8745_-81.58431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.069849", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en17--/home/ubuntu/uploadToS3.py": {
+            "prov:UUID": {
+                "$": "1432324941879707/home/ubuntu/uploadToS3.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.879707", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en18--/home/ubuntu/default/fluxes_34.6245_-81.7093": {
+            "prov:UUID": {
+                "$": "1432324939307205/home/ubuntu/default/fluxes_34.6245_-81.70931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.307205", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en19--/home/ubuntu/.cache/matplotlib/tmps3egQ7": {
+            "prov:UUID": {
+                "$": "1432324941032972/home/ubuntu/.cache/matplotlib/tmps3egQ71.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.032972", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en2--/home/ubuntu/default/fluxes_34.7495_-81.4593": {
+            "prov:UUID": {
+                "$": "1432324938156934/home/ubuntu/default/fluxes_34.7495_-81.45931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.156934", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en20--/home/ubuntu/vic_calc_mnth_mc.py": {
+            "prov:UUID": {
+                "$": "1432324937816012/home/ubuntu/vic_calc_mnth_mc.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.816012", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en21--/home/ubuntu/.cache/matplotlib/tmpLtSCXw": {
+            "prov:UUID": {
+                "$": "1432324941069902/home/ubuntu/.cache/matplotlib/tmpLtSCXw1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.069902", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en22--/home/ubuntu/vic_soil_moisture.py": {
+            "prov:UUID": {
+                "$": "1432324940777842/home/ubuntu/vic_soil_moisture.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.777842", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en23--/home/ubuntu/default/fluxes_34.6245_-81.3343": {
+            "prov:UUID": {
+                "$": "1432324938380378/home/ubuntu/default/fluxes_34.6245_-81.33431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.380378", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en24--/home/ubuntu/default/fluxes_34.9995_-81.4593": {
+            "prov:UUID": {
+                "$": "1432324937824238/home/ubuntu/default/fluxes_34.9995_-81.45931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.824238", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en25--/home/ubuntu/default/fluxes_34.6245_-81.5843": {
+            "prov:UUID": {
+                "$": "1432324939669561/home/ubuntu/default/fluxes_34.6245_-81.58431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.669561", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en26--/home/ubuntu/default/fluxes_34.6245_-81.2093": {
+            "prov:UUID": {
+                "$": "1432324938493418/home/ubuntu/default/fluxes_34.6245_-81.20931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.493418", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en27--/home/ubuntu/vicSoilMoistureEcohydro.pdf": {
+            "prov:UUID": {
+                "$": "1432324942087106/home/ubuntu/vicSoilMoistureEcohydro.pdf1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:22.087106", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en28--/home/ubuntu/vicSoilMoistureEcohydro.pdf": {
+            "prov:UUID": {
+                "$": "1432324941232950/home/ubuntu/vicSoilMoistureEcohydro.pdf1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.232950", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en29--/home/ubuntu/spatiotempdatabase.py": {
+            "prov:UUID": {
+                "$": "1432324937821611/home/ubuntu/spatiotempdatabase.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.821611", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en3--/home/ubuntu/vic_monthly_soilmoisture.py": {
+            "prov:UUID": {
+                "$": "1432324940075274/home/ubuntu/vic_monthly_soilmoisture.py1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.075274", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en30--/home/ubuntu/default/fluxes_34.8745_-81.3343": {
+            "prov:UUID": {
+                "$": "1432324938836210/home/ubuntu/default/fluxes_34.8745_-81.33431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.836210", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en31--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324940223477/home/ubuntu/spatiotempSoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.223477", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en32--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324937933203/home/ubuntu/spatiotempSoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.933203", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en33--/home/ubuntu/.config/matplotlib/tmp5XZXUZ": {
+            "prov:UUID": {
+                "$": "1432324940955146/home/ubuntu/.config/matplotlib/tmp5XZXUZ1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.955146", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en34--/home/ubuntu/default/fluxes_34.8745_-81.2093": {
+            "prov:UUID": {
+                "$": "1432324939916193/home/ubuntu/default/fluxes_34.8745_-81.20931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.916193", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en35--/home/ubuntu/.cache/matplotlib/tmpgY8wYG": {
+            "prov:UUID": {
+                "$": "1432324941143691/home/ubuntu/.cache/matplotlib/tmpgY8wYG1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.143691", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en36--/home/ubuntu/run_psp_vic_soilmoisture.scr": {
+            "prov:UUID": {
+                "$": "1432324937774007/home/ubuntu/run_psp_vic_soilmoisture.scr1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.774007", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en37--/home/ubuntu/default/fluxes_34.6245_-81.4593": {
+            "prov:UUID": {
+                "$": "1432324939791671/home/ubuntu/default/fluxes_34.6245_-81.45931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.791671", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en38--/home/ubuntu/spatiotempdatabase.pyc": {
+            "prov:UUID": {
+                "$": "1432324937821690/home/ubuntu/spatiotempdatabase.pyc1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.821690", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en4--/home/ubuntu/monthlySoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324941145557/home/ubuntu/monthlySoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:21.145557", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en5--/home/ubuntu/monthlySoilMoistureEcohydro.csv": {
+            "prov:UUID": {
+                "$": "1432324940740018/home/ubuntu/monthlySoilMoistureEcohydro.csv1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:20.740018", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en6--/home/ubuntu/default": {
+            "prov:UUID": {
+                "$": "1432324937821933/home/ubuntu/default1.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:17.821933", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en7--/home/ubuntu/default/fluxes_34.8745_-81.0843": {
+            "prov:UUID": {
+                "$": "1432324939188235/home/ubuntu/default/fluxes_34.8745_-81.08431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.188235", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en8--/home/ubuntu/default/fluxes_34.7495_-81.7093": {
+            "prov:UUID": {
+                "$": "1432324938605843/home/ubuntu/default/fluxes_34.7495_-81.70931.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:18.605843", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }, 
+        "prov:en9--/home/ubuntu/default/fluxes_34.7495_-81.3343": {
+            "prov:UUID": {
+                "$": "1432324939426956/home/ubuntu/default/fluxes_34.7495_-81.33431.0", 
+                "type": "xsd:string"
+            }, 
+            "prov:creationTime": {
+                "$": "2015-05-22T20:02:19.426956", 
+                "type": "xsd:string"
+            }, 
+            "prov:version": {
+                "$": "1.0", 
+                "type": "xsd:string"
+            }
+        }
+    }, 
+    "prefix": {
+        "prov": "http://example.org"
+    }, 
+    "used": {
+        "_:u1": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en1--/home/ubuntu/default/fluxes_34.9995_-81.3343"
+        }, 
+        "_:u10": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en11--/home/ubuntu/default/fluxes_34.8745_-81.4593"
+        }, 
+        "_:u11": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en12--/home/ubuntu/.cache/matplotlib/fontList.cache"
+        }, 
+        "_:u12": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en13--/home/ubuntu/default/fluxes_34.4995_-81.2093"
+        }, 
+        "_:u13": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en14--/home/ubuntu/default/fluxes_34.7495_-81.5843"
+        }, 
+        "_:u14": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en15--/home/ubuntu/default/fluxes_34.7495_-81.2093"
+        }, 
+        "_:u15": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en16--/home/ubuntu/default/fluxes_34.8745_-81.5843"
+        }, 
+        "_:u16": {
+            "prov:activity": "prov:act1--/usr/bin/python", 
+            "prov:entity": "prov:en17--/home/ubuntu/uploadToS3.py"
+        }, 
+        "_:u17": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en18--/home/ubuntu/default/fluxes_34.6245_-81.7093"
+        }, 
+        "_:u18": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en20--/home/ubuntu/vic_calc_mnth_mc.py"
+        }, 
+        "_:u19": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en22--/home/ubuntu/vic_soil_moisture.py"
+        }, 
+        "_:u2": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en2--/home/ubuntu/default/fluxes_34.7495_-81.4593"
+        }, 
+        "_:u20": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en23--/home/ubuntu/default/fluxes_34.6245_-81.3343"
+        }, 
+        "_:u21": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en24--/home/ubuntu/default/fluxes_34.9995_-81.4593"
+        }, 
+        "_:u22": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en25--/home/ubuntu/default/fluxes_34.6245_-81.5843"
+        }, 
+        "_:u23": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en26--/home/ubuntu/default/fluxes_34.6245_-81.2093"
+        }, 
+        "_:u24": {
+            "prov:activity": "prov:act1--/usr/bin/python", 
+            "prov:entity": "prov:en27--/home/ubuntu/vicSoilMoistureEcohydro.pdf"
+        }, 
+        "_:u25": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en29--/home/ubuntu/spatiotempdatabase.py"
+        }, 
+        "_:u26": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en30--/home/ubuntu/default/fluxes_34.8745_-81.3343"
+        }, 
+        "_:u27": {
+            "prov:activity": "prov:act5--/usr/bin/python", 
+            "prov:entity": "prov:en31--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv"
+        }, 
+        "_:u28": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en34--/home/ubuntu/default/fluxes_34.8745_-81.2093"
+        }, 
+        "_:u29": {
+            "prov:activity": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:entity": "prov:en36--/home/ubuntu/run_psp_vic_soilmoisture.scr"
+        }, 
+        "_:u3": {
+            "prov:activity": "prov:act5--/usr/bin/python", 
+            "prov:entity": "prov:en3--/home/ubuntu/vic_monthly_soilmoisture.py"
+        }, 
+        "_:u30": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en37--/home/ubuntu/default/fluxes_34.6245_-81.4593"
+        }, 
+        "_:u31": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en38--/home/ubuntu/spatiotempdatabase.pyc"
+        }, 
+        "_:u4": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en4--/home/ubuntu/monthlySoilMoistureEcohydro.csv"
+        }, 
+        "_:u5": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en6--/home/ubuntu/default"
+        }, 
+        "_:u6": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en7--/home/ubuntu/default/fluxes_34.8745_-81.0843"
+        }, 
+        "_:u7": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en8--/home/ubuntu/default/fluxes_34.7495_-81.7093"
+        }, 
+        "_:u8": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en9--/home/ubuntu/default/fluxes_34.7495_-81.3343"
+        }, 
+        "_:u9": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en10--/home/ubuntu/default/fluxes_34.9995_-81.5843"
+        }
+    }, 
+    "wasInformedBy": {
+        "_:Infm1": {
+            "prov:informant": "prov:act1--/usr/bin/python", 
+            "prov:informed": "prov:act4--/bin/sh"
+        }, 
+        "_:Infm2": {
+            "prov:informant": "prov:act4--/bin/sh", 
+            "prov:informed": "prov:act2--/bin/uname"
+        }, 
+        "_:Infm3": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act7--/usr/bin/python"
+        }, 
+        "_:Infm4": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act5--/usr/bin/python"
+        }, 
+        "_:Infm5": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act3--/usr/bin/python"
+        }, 
+        "_:Infm6": {
+            "prov:informant": "prov:act6--/home/ubuntu/run_psp_vic_soilmoisture.scr", 
+            "prov:informed": "prov:act1--/usr/bin/python"
+        }
+    }, 
+    "wasgeneratedby": {
+        "_:wGB1": {
+            "prov:activity": "prov:act5--/usr/bin/python", 
+            "prov:entity": "prov:en5--/home/ubuntu/monthlySoilMoistureEcohydro.csv"
+        }, 
+        "_:wGB2": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en19--/home/ubuntu/.cache/matplotlib/tmps3egQ7"
+        }, 
+        "_:wGB3": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en21--/home/ubuntu/.cache/matplotlib/tmpLtSCXw"
+        }, 
+        "_:wGB4": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en28--/home/ubuntu/vicSoilMoistureEcohydro.pdf"
+        }, 
+        "_:wGB5": {
+            "prov:activity": "prov:act7--/usr/bin/python", 
+            "prov:entity": "prov:en32--/home/ubuntu/spatiotempSoilMoistureEcohydro.csv"
+        }, 
+        "_:wGB6": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en33--/home/ubuntu/.config/matplotlib/tmp5XZXUZ"
+        }, 
+        "_:wGB7": {
+            "prov:activity": "prov:act3--/usr/bin/python", 
+            "prov:entity": "prov:en35--/home/ubuntu/.cache/matplotlib/tmpgY8wYG"
+        }
+    }
+}
