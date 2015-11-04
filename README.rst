@@ -1,5 +1,10 @@
 scids-client is a python library for accessing interacting with SciDataspace. 
 
+Pre-requirements
+git
+python dev
+sudo apt-get install python-setuptools
+
 Install
 
 Use the setup.py script to install this library:
@@ -9,4 +14,4 @@ The library can also be installed as a normal user in a virtualenv, or using the
 
 Usage
 
-The client requires a goauth token to authenticate. 
+The client requires a goauth token to authenticate.
