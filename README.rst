@@ -4,6 +4,7 @@ Pre-requirements
 git
 python dev
 sudo apt-get install python-setuptools
+g++
 
 Install
 
