@@ -25,5 +25,5 @@ Usage
 The client requires a goauth token to authenticate.
 
 For time being:
-mkdir .gdclient
-copy config.ini to .gdclient
+mkdir ~/.gdclient
+copy config.ini to ~/.gdclient
