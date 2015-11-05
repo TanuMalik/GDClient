@@ -13,7 +13,7 @@ Install
 
 Use the setup.py script to install this library:
 
-cd scids-client/scidataspace
+cd scids-client/scidataspace/client
 sudo python setup.py install
 cd ../..
 sudo python setup.py install
