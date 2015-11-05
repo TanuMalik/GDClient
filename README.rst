@@ -1,11 +1,13 @@
 scids-client is a python library for accessing interacting with SciDataspace. 
 
 Pre-requirements
-* git 
-* python dev
+* git <br />
+* python dev <br />
 * sudo apt-get install python-setuptools
 * g++
 * docker
+
+
 
 Install
 
