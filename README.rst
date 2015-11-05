@@ -7,7 +7,7 @@ Pre-requirements
 * g++
 * docker
 
-
+git clone https://<username>@bitbucket.org/tanum/scids-client.git
 
 Install
 
