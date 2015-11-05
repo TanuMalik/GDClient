@@ -49,7 +49,12 @@ class GDConfig:
     def __init__(self):
         self.config_file_name = os.path.join(os.path.expanduser("~"),'.gdclient','config.ini')
         self.config = configparser.ConfigParser()
-        self.config.read_file(open(self.config_file_name))
+        try:
+            self.config.read_file(open(self.config_file_name))
+        except:
+            with open(self.config_file_name,"a+") as f:
+                f.write(" ")
+            
         if self.get_cfg_field('URL') == "None":
             print "GeoDataspace URL is not set"
             exit(1)
