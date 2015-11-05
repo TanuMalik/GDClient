@@ -23,3 +23,7 @@ The library can also be installed as a normal user in a virtualenv, or using the
 Usage
 
 The client requires a goauth token to authenticate.
+
+For time being:
+mkdir .gdclient
+copy config.ini to .gdclient
