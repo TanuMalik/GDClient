@@ -13,7 +13,11 @@ Install
 
 Use the setup.py script to install this library:
 
+cd scids-client/scidataspace
 sudo python setup.py install
+cd ../..
+sudo python setup.py install
+
 The library can also be installed as a normal user in a virtualenv, or using the --user option to install.
 
 Usage
