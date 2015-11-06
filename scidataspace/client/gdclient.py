@@ -52,16 +52,24 @@ class GDConfig:
         try:
             self.config.read_file(open(self.config_file_name))
         except:
-            with open(self.config_file_name,"a+") as f:
-                f.write(" ")
-            
+            self.config['Default'] = {'url': "https://ec2-54-84-57-85.compute-1.amazonaws.com/service/dataset",
+                                   'uname' : 'None',
+                                   'goauth-token' : 'None'}
+            self.config['GLOBUS'] = {'local-endpoint': 'tanum#gdclient-hydro',
+                                     'local-folder': '~/.gdclient/docker_images',
+                                     'globus-folder': '~/.gdclient/docker_images'}
+            self.config['GeoDataspace'] = {'catalog' : 11}
+            self.write_cfg_file()
+
         if self.get_cfg_field('URL') == "None":
-            print "GeoDataspace URL is not set"
+            print "GeoDataspace URL is not set in %s"%self.config_file_name
             exit(1)
 
         b_will_exit = False
         if  self.get_cfg_field('uname') == "None":
             uname = raw_input("Please provide user name > ")
+        else:
+            uname = self.get_cfg_field('uname')
 
         if self.get_cfg_field('goauth-token') == "None":
             b_will_exit = True
