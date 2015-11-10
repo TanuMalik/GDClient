@@ -21,7 +21,7 @@ def build(cde_package_root, tag=None, cmd=None):
     # create Dockerfile
     with open(cde_package_root + '/Dockerfile', 'w') as f:
         f.write('''FROM ubuntu
-COPY cde-root /
+COPY cde-package/cde-root /
 ''')
         if cmd:
             f.write('CMD {0}\n'.format(cmd))
@@ -53,15 +53,19 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     if  not is_geounit_selected(geounit_id): return
 
     working_path = os.getcwd()
-    current_path = os.path.dirname(os.path.abspath(__file__))
+    home_folder = os.path.expanduser("~")
+    package_file_path = os.path.dirname(os.path.abspath(__file__))
     #print "current_path=", current_path
-    executable = os.path.join(current_path, "bin","ptu")
-    packages_json_file = os.path.join(working_path, ".gdclient","packages","packages.json")
+    executable = os.path.join(package_file_path, "bin","ptu")
+    packages_json_file = os.path.join(home_folder, ".gdclient","packages","packages.json")
+    # print "packages_json_file=",packages_json_file
     try:
         with open(packages_json_file) as data_file:
             packages_json = json.load(data_file)
     except:
         packages_json = {}
+        with open(packages_json_file, 'w') as outfile:
+            json.dump(packages_json, outfile, sort_keys = True, indent = 4)
     boolWithProvenance = False
 
     cmd_2 = cmd_splitted.get(1,"")
@@ -85,7 +89,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
             print "cannot find package id ",package_id
             return
         packages_json.pop(package_id, None)
-        package_directory = os.path.join(working_path, ".gdclient","packages",package_id)
+        package_directory = os.path.join(home_folder, ".gdclient","packages",package_id)
         try:
             shutil.rmtree(package_directory)
         except Exception as e:
@@ -96,6 +100,30 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
             json.dump(packages_json, outfile, sort_keys = True, indent = 4)
         return
 
+
+
+    ########
+    #       test subcommand
+    ########
+    if cmd_2 == "test":
+        package_id = cmd_splitted.get(2,"")
+        if packages_json.get(package_id,UNDEFINED) == UNDEFINED:
+            print "cannot find package id ",package_id
+            return
+        cmd_to_run = "docker run -w %s %s %s" %(packages_json[package_id]['workdir'],
+                                                package_id,
+                                                packages_json[package_id]['command'])
+        # print "cmd_to_run=", cmd_to_run
+
+        # this will create cde.option file and cde-package directory
+        print( cmd_to_run)
+
+        try:
+            run_command(cmd_to_run)
+        except Exception as e:
+            sys.stderr.write(str(e) + "\n")
+
+        return
 
     cmd_level_index = 2
     # with provenance - create json
@@ -123,7 +151,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
             # this will create cde.option file and cde-package directory
             run_command(cmd_to_run)
             package_hash = create_hash(cmd_to_run)
-            package_directory = os.path.join(working_path, ".gdclient","packages",package_hash)
+            package_directory = os.path.join(home_folder, ".gdclient","packages",package_hash)
             if not os.path.exists(package_directory):
                 os.makedirs(package_directory)
 
@@ -141,11 +169,13 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
 
             # need to store package hash in a list
             print "package_hash=",package_hash
-            packages_json[package_hash]= dict(command= user_command, date=str(datetime.now()))
+            packages_json[package_hash]= dict(command= user_command,
+                                              date=str(datetime.now()),
+                                              workdir=working_path)
             with open(packages_json_file, 'w') as outfile:
                 json.dump(packages_json, outfile, sort_keys = True, indent = 4)
         except:
-            # print "Unexpected error:", sys.exc_info()[0]
+            print "Unexpected error:", sys.exc_info()
             print "USAGE: --package level individual <program to execute>"
             pass
     ########
@@ -155,11 +185,11 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     elif cmd_level == 'collaboration':
         package_id = cmd_splitted.get(cmd_level_index+1,"")
         # test if individual is completed ; package exists
-        package_directory = os.path.join(working_path, ".gdclient","packages",package_id)
+        package_directory = os.path.join(home_folder, ".gdclient","packages",package_id)
         if packages_json.get(package_id,UNDEFINED) == UNDEFINED:
             print "cannot find package id ",package_id
             return
-        package_directory = os.path.join(working_path, ".gdclient","packages",package_id)
+        package_directory = os.path.join(home_folder, ".gdclient","packages",package_id)
         if not os.path.isdir(package_directory):
             print "ERROR: Package folder does not exists"
             return
@@ -168,7 +198,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         docker_container_id = UNDEFINED
         try:
             # build('../cde-package', tag='scidataspace/test:v2', cmd='/root/d/hello.py')
-            docker_container_id = build(package_directory+'/cde-package', tag=package_id)
+            docker_container_id = build(package_directory, tag=package_id)
             print "Successfull"
             return docker_container_id
         except Exception, ex:
