@@ -118,10 +118,11 @@ def create_graph(input_file):
     for pidkey in activities_dict:
         mylist = []
         for (k, v) in db.RangeIter(key_from='prv.pid.'+pidkey+'.exec', key_to='prv.pid.'+pidkey+'.execzzz'):
-            mylist.append(activities_dict[v])
+            new_v= [jkl for jkl in activities_dict if jkl.split('.')[0] ==v.split('.')[0]]
+            mylist.append(activities_dict[new_v[0]])
             wasInformedBy_dict["_:Infm"+str(wasInformedBy_cnt)]= {
                 "prov:informant":activities_dict[pidkey],
-                "prov:informed":activities_dict[v]
+                "prov:informed":activities_dict[new_v[0]]
             }
             wasInformedBy_cnt += 1
         # print activities_dict[pidkey],' started ',str(mylist)
