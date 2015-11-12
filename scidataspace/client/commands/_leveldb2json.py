@@ -6,8 +6,9 @@ import datetime,json, re
 from pprint import pprint
 
 import argparse
-
-default_output_file = '~/.gdclient/filex.json'
+from os.path import expanduser
+home_directory = expanduser("~")
+default_output_file = os.path.join(home_directory,".gdclient","filex.json")
 default_input_file = "cde-package/provenance.cde-root.1.log"
 
 version = "1.0"

@@ -1,5 +1,7 @@
 import os
 import json
+from os.path import expanduser
+home_directory = expanduser("~")
 from scidataspace.client.commands.util import run_command
 from scidataspace.client.commands._leveldb2json import create_graph
 
@@ -26,9 +28,9 @@ def parse_cmd_track(cmd_splitted):
     graph_dict = create_graph("cde-package/provenance.cde-root.1.log")
 
     run_command(" rm -rf cde-package cde.options")
-    json_file_name = os.path.join("~",".gdclient","filex.json")
+    json_file_name = os.path.join(home_directory,".gdclient","filex.json")
 
-    with open(json_file_name, 'w') as outfile:
+    with open(json_file_name, 'w+') as outfile:
         json.dump(graph_dict, outfile, sort_keys = True, indent = 4)
 
     #print "USAGE: track <program name with arguments>"
