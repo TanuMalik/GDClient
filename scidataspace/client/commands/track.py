@@ -26,7 +26,7 @@ def parse_cmd_track(cmd_splitted):
     graph_dict = create_graph("cde-package/provenance.cde-root.1.log")
 
     run_command(" rm -rf cde-package cde.options")
-    json_file_name = os.path.join(working_path,".gdclient","filex.json")
+    json_file_name = os.path.join("~",".gdclient","filex.json")
 
     with open(json_file_name, 'w') as outfile:
         json.dump(graph_dict, outfile, sort_keys = True, indent = 4)
