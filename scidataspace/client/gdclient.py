@@ -222,6 +222,12 @@ if __name__ == '__main__':
         elif first_command in ["--annotate", "--add_member"]:
             locals()["parse_cmd_"+first_command[2:]](cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
 
+        elif first_command == "cd":
+            try:
+                os.chdir(cmd_splitted.get(1,home_folder))
+            except Exception as e:
+                sys.stderr.write(str(e) + "\n")
+
         else:
             # any bash command that we want to pass to the system
             run_command(cmd_to_run)
