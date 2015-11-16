@@ -9,6 +9,10 @@ RE_SPACE = re.compile('.*\s+$', re.M)
 
 
 LOG_FILENAME = '/tmp/completer.log'
+if not os.path.isfile(LOG_FILENAME):
+    with open(LOG_FILENAME, "w") as f:
+        f.write('x\n')
+    os.chmod(LOG_FILENAME, 0o777)
 logging.basicConfig(filename=LOG_FILENAME,
                     level=logging.DEBUG,
                     )

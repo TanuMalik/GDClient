@@ -6,6 +6,7 @@ Pre-requirements
 * sudo apt-get install python-setuptools
 * g++
 * docker
+sudo chmod o+rwx /var/run/docker.sock
 
 git clone https://<username>@bitbucket.org/tanum/scids-client.git
 
