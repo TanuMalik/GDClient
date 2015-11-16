@@ -58,6 +58,9 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     #print "current_path=", current_path
     executable = os.path.join(package_file_path, "bin","ptu")
     packages_json_file = os.path.join(home_folder, ".gdclient","packages","packages.json")
+    packages_directory = os.path.join(home_folder, ".gdclient","packages")
+    if not os.path.exists(packages_directory):
+        os.makedirs(packages_directory)
     # print "packages_json_file=",packages_json_file
     try:
         with open(packages_json_file) as data_file:
