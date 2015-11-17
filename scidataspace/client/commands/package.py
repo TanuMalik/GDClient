@@ -203,8 +203,11 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         try:
             # build('../cde-package', tag='scidataspace/test:v2', cmd='/root/d/hello.py')
             docker_container_id = build(package_directory, tag=package_id)
-            print "Successfull"
-            return docker_container_id
+            if docker_container_id is not None:
+                print "Successfull"
+                return docker_container_id
+            else:
+                raise Exception("Could not create container")
         except Exception, ex:
             print "Error: {0}".format(ex)
 
