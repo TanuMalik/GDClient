@@ -38,7 +38,8 @@ COPY cde-package/cde-root /
             if match:
                 docker_image_id = match.group(1)
         elif 'errorDetail' in s:
-            raise Exception(s['errorDetail']['message'])
+            # raise Exception(s['errorDetail']['message'])
+            print "Exception:",s['errorDetail']['message']
 
     if docker_image_id:
         print "Successfully built image id ",docker_image_id
