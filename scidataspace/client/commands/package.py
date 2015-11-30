@@ -21,7 +21,7 @@ def build(cde_package_root, tag=None, cmd=None):
     # create Dockerfile
     with open(cde_package_root + '/Dockerfile', 'w') as f:
         f.write('''FROM ubuntu
-COPY cde-package/cde-root /
+COPY cde-package/ /home/cde-package
 ''')
         for key in os.environ:
             value = os.environ[key]
@@ -105,7 +105,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         try:
             shutil.rmtree(package_directory)
         except Exception as e:
-            print "cannot delet folder"
+            print "cannot delete folder"
             sys.stderr.write(str(e) + "\n")
 
         with open(packages_json_file, 'w') as outfile:
@@ -122,9 +122,11 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         if packages_json.get(package_id,UNDEFINED) == UNDEFINED:
             print "cannot find package id ",package_id
             return
-        cmd_to_run = "docker run -w %s %s %s" %(packages_json[package_id]['workdir'],
+        docker_workdir="/home/cde-package/cde-root%s"%packages_json[package_id]['workdir']
+        docker_command="/home/cde-package/cde-exec %s"%packages_json[package_id]['command']
+        cmd_to_run = "docker run --privileged -w %s %s %s" %(docker_workdir,
                                                 package_id,
-                                                packages_json[package_id]['command'])
+                                                docker_command)
         # print "cmd_to_run=", cmd_to_run
 
         # this will create cde.option file and cde-package directory
@@ -230,3 +232,6 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         pass
     else:
         print "USAGE: package [provenance] list| delete| level [individual <program name>| collaboration <package id>| community] "
+
+
+
