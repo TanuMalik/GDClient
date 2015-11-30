@@ -23,14 +23,14 @@ def build(cde_package_root, tag=None, cmd=None):
         f.write('''FROM ubuntu
 COPY cde-package/ /home/cde-package
 ''')
-        for key in os.environ:
-            value = os.environ[key]
-            if value is not None and value.strip() != '':
-                f.write('ENV {key} {value}\n'.format(key=key, value=value))
-            else:
-                pass
-                # will ignore this variable but will not raise error
-                # print "wrong k={key} value={value}".format(key=key, value=value)
+        # for key in os.environ:
+        #     value = os.environ[key]
+        #     if value is not None and value.strip() != '':
+        #         f.write('ENV {key} {value}\n'.format(key=key, value=value))
+        #     else:
+        #         pass
+        #         # will ignore this variable but will not raise error
+        #         # print "wrong k={key} value={value}".format(key=key, value=value)
         if cmd:
             f.write('CMD {0}\n'.format(cmd))
 
