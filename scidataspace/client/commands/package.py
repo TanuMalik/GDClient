@@ -66,6 +66,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
     package_file_path = os.path.dirname(os.path.abspath(__file__))
     #print "current_path=", current_path
     executable = os.path.join(package_file_path, "bin","ptu")
+    executable = "/home/ubuntu/cristian/CDE/cde"
     packages_json_file = os.path.join(home_folder, ".gdclient","packages","packages.json")
     packages_directory = os.path.join(home_folder, ".gdclient","packages")
     if not os.path.exists(packages_directory):
