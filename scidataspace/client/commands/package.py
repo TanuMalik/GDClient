@@ -1,5 +1,6 @@
 from scidataspace.client.commands.util import UNDEFINED,is_geounit_selected, run_command
 from scidataspace.client.commands._leveldb2json import create_graph
+from scidataspace.client.commands.transfer import globus_transfer
 
 import docker
 import json
@@ -58,7 +59,7 @@ COPY cde-package/ /home/cde-package
 #######################################
 #   Parse package
 #######################################
-def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
+def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db, cfg):
     if  not is_geounit_selected(geounit_id): return
 
     working_path = os.getcwd()
@@ -113,6 +114,31 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
             json.dump(packages_json, outfile, sort_keys = True, indent = 4)
         return
 
+
+    ########
+    #       add subcommand
+    ########
+    if cmd_2 == "add":
+        package_id = cmd_splitted.get(2,"")
+        if packages_json.get(package_id,UNDEFINED) == UNDEFINED:
+            print "cannot find package id ",package_id
+            return
+
+        # TODO add member and transfer through globus
+        # transfer through globus
+        globus_package_name = globus_transfer(package_id, cfg)
+
+        # add member with newly created package
+
+        try:
+            r, members = datasetClient.create_member(catalog_id,geounit_id,dict(data_type="file", data_uri=globus_package_name))
+            # print members['id']
+            print "Added member: ", globus_package_name
+            db.Put("member."+globus_package_name, str(members['id']))
+        except:
+            print "Cannot add member: "+globus_package_name
+            pass
+        return
 
 
     ########
@@ -232,7 +258,7 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db):
         # TODO: put a docker file as part of docker container
         pass
     else:
-        print "USAGE: package [provenance] list| delete| level [individual <program name>| collaboration <package id>| community] "
+        print "USAGE: package [provenance] list| add | delete| level [individual <program name>| collaboration <package id>| community] "
 
 
 

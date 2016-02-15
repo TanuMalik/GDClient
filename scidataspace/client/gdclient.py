@@ -176,6 +176,7 @@ if __name__ == '__main__':
                           },
                      'level':{'individual':{}, 'collaboration':{}, 'community':{}},
                      'list':{},
+                     'add':{},
                      'delete':{},
                      },
         'annotate':{'geounit':
@@ -219,7 +220,7 @@ if __name__ == '__main__':
                 parse_cmd_transfer(cmd_splitted,docker_image_id, cfg)
 
         elif first_command == "--package":
-            new_image_id = parse_cmd_package(cmd_splitted, mycatalog_id, geounit_id, datasetClient, db)
+            new_image_id = parse_cmd_package(cmd_splitted, mycatalog_id, geounit_id, datasetClient, db, cfg)
             if new_image_id:
                 docker_image_id = new_image_id
 
