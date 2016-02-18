@@ -201,7 +201,9 @@ def parse_cmd_package(cmd_splitted, catalog_id, geounit_id, datasetClient, db, c
 
             # create json file, if is specified in command
             if boolWithProvenance:
-                graph_dict = create_graph(package_directory+"cde-package/provenance.cde-root.1.log")
+                provenance_package_directory = os.path.join(package_directory,"cde-package", "provenance.cde-root.1.log")
+                # print "pkg dir=",provenance_package_directory
+                graph_dict = create_graph(provenance_package_directory)
 
                 json_file_name = os.path.join(package_directory,"filex.json")
 
