@@ -6,6 +6,7 @@ import urllib
 from sys import platform as _platform
 from globusonline.transfer.api_client import Transfer, create_client_from_args
 from datetime import datetime, timedelta
+import transfer_to_hydroshare
 
 #######################################
 #   Parse transfer
@@ -120,5 +121,7 @@ def globus_transfer(image_id, cfg):
 
 
 def parse_cmd_transfer(cmd_splitted, image_id=None, cfg=None):
-    image_id = cmd_splitted.get(1,UNDEFINED)
-    globus_transfer(image_id, cfg)
+    transfer_to_hydroshare.transfer_to_hydroshare_server()
+  
+    #image_id = cmd_splitted.get(1,UNDEFINED)
+    #globus_transfer(image_id, cfg)
